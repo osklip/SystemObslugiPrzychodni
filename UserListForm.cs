@@ -101,10 +101,5 @@ namespace SystemObslugiPrzychodni
                 MessageBox.Show("Nie wybrano użytkownika.");
             }
         }
-
-        private void UserForgetButton_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }

@@ -22,7 +22,7 @@ namespace SystemObslugiPrzychodni
         
         public static int GetNextUserId()
         {
-            using (var connection = new SqliteConnection("Data Source=C:\\Users\\lipsk\\Source\\Repos\\SystemObslugiPrzychodni2\\database.db"))
+            using (var connection = new SqliteConnection("Data Source=C:\\Users\\lipsk\\Source\\Repos\\SystemObslugiPrzychodni\\database.db"))
             {
                 connection.Open();
 
@@ -46,7 +46,7 @@ namespace SystemObslugiPrzychodni
 
         public static void AddUser(User user)
         {
-            using (var connection = new SqliteConnection("Data Source=C:\\Users\\lipsk\\Source\\Repos\\SystemObslugiPrzychodni2\\database.db"))
+            using (var connection = new SqliteConnection("Data Source=C:\\Users\\lipsk\\Source\\Repos\\SystemObslugiPrzychodni\\database.db"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -91,7 +91,7 @@ namespace SystemObslugiPrzychodni
 
         public static void EditUser(User user)
         {
-            using (var connection = new SqliteConnection("Data Source=C:\\Users\\lipsk\\Source\\Repos\\SystemObslugiPrzychodni2\\database.db"))
+            using (var connection = new SqliteConnection("Data Source=C:\\Users\\lipsk\\Source\\Repos\\SystemObslugiPrzychodni\\database.db"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -147,7 +147,7 @@ namespace SystemObslugiPrzychodni
 
         public static List<User> GetAllUsers()
         {
-            using (var connection = new SqliteConnection("Data Source=C:\\Users\\lipsk\\Source\\Repos\\SystemObslugiPrzychodni2\\database.db"))
+            using (var connection = new SqliteConnection("Data Source=C:\\Users\\lipsk\\Source\\Repos\\SystemObslugiPrzychodni\\database.db"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();
@@ -196,7 +196,7 @@ namespace SystemObslugiPrzychodni
                 throw new ArgumentException("Nieprawidłowa nazwa kolumny.", nameof(columnName));
             }
 
-            using (var connection = new SqliteConnection("Data Source=C:\\Users\\lipsk\\Source\\Repos\\SystemObslugiPrzychodni2\\database.db"))
+            using (var connection = new SqliteConnection("Data Source=C:\\Users\\lipsk\\Source\\Repos\\SystemObslugiPrzychodni\\database.db"))
             {
                 connection.Open();
                 var command = connection.CreateCommand();

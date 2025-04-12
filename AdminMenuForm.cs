@@ -22,5 +22,11 @@ namespace SystemObslugiPrzychodni
             userListForm.Show();
             this.Hide();
         }
+
+        private void btnViewForgottenUsers_Click(object sender, EventArgs e)
+        {
+            var form = new ForgottenUsersForm();
+            form.ShowDialog();
+        }
     }
 }

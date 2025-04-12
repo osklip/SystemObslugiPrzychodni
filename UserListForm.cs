@@ -40,6 +40,7 @@ namespace SystemObslugiPrzychodni
             dataGridViewUserList.Columns["Sex"].Visible = false;
             dataGridViewUserList.Columns["Phone"].Visible = false;
             dataGridViewUserList.Columns["Role_id"].Visible = false;
+            dataGridViewUserList.Columns["Is_active"].Visible = false;
         }
 
         private void OpenAdminMenuFormButton_Click(object sender, EventArgs e)
@@ -54,16 +55,28 @@ namespace SystemObslugiPrzychodni
             string filterLogin = textBoxLogin.Text.Trim();
             string filterSurname = textBoxSurname.Text.Trim();
             string filterPesel = textBoxPESEL.Text.Trim();
+            string filterName = textBoxName.Text.Trim();
 
             var filteredUsers = UserManagement.users.Where(u =>
                  (string.IsNullOrEmpty(filterLogin) || u.Login.Contains(filterLogin, StringComparison.OrdinalIgnoreCase)) &&
                  (string.IsNullOrEmpty(filterSurname) || u.Surname.Contains(filterSurname, StringComparison.OrdinalIgnoreCase)) &&
+                 (string.IsNullOrEmpty(filterName) || u.Name.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
                  (string.IsNullOrEmpty(filterPesel) || u.Pesel.Contains(filterPesel))
             ).ToList();
 
-            dataGridViewUserList.DataSource = null;
-            dataGridViewUserList.DataSource = filteredUsers;
-            HideData();
+            if (filteredUsers.Count > 0)
+            {
+                System.Diagnostics.Debug.WriteLine("Liczba wszystkich użytkowników: " + UserManagement.users.Count);
+                System.Diagnostics.Debug.WriteLine("Liczba po filtrze: " + filteredUsers.Count);
+                dataGridViewUserList.DataSource = null;
+                dataGridViewUserList.DataSource = filteredUsers;
+                HideData();
+            }
+            else
+            {
+                dataGridViewUserList.DataSource = null;
+                MessageBox.Show("Nie znaleziono użytkowników zgodnych z kryteriami wyszukiwania.");
+            }
         }
 
         private void SearchUserButton_Click(object sender, EventArgs e)
@@ -99,6 +112,37 @@ namespace SystemObslugiPrzychodni
             else
             {
                 MessageBox.Show("Nie wybrano użytkownika.");
+            }
+        }
+
+        private void BtnForgetUser_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewUserList.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = dataGridViewUserList.SelectedRows[0];
+                User selectedUser = selectedRow.DataBoundItem as User;
+
+                if (selectedUser != null)
+                {
+                    var result = MessageBox.Show(
+                        $"Czy na pewno chcesz zapomnieć użytkownika {selectedUser.Name} {selectedUser.Surname}?",
+                        "Potwierdzenie", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        UserManagement.ForgetUser(selectedUser, 1);
+                        MessageBox.Show("Użytkownik został zapomniany.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        RefreshUserList();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Nie udało się pobrać danych użytkownika.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Proszę zaznaczyć użytkownika na liście.");
             }
         }
     }

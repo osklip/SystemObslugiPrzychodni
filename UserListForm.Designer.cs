@@ -41,6 +41,9 @@ namespace SystemObslugiPrzychodni
             textBoxPESEL = new TextBox();
             ResetViewButton = new Button();
             OpenUserDetailsForm = new Button();
+            BtnForgetUser = new Button();
+            textBoxName = new TextBox();
+            label5 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridViewUserList).BeginInit();
             SuspendLayout();
             // 
@@ -53,12 +56,13 @@ namespace SystemObslugiPrzychodni
             dataGridViewUserList.Location = new Point(12, 113);
             dataGridViewUserList.Name = "dataGridViewUserList";
             dataGridViewUserList.ReadOnly = true;
-            dataGridViewUserList.Size = new Size(578, 485);
+            dataGridViewUserList.RowHeadersWidth = 51;
+            dataGridViewUserList.Size = new Size(768, 485);
             dataGridViewUserList.TabIndex = 0;
             // 
             // OpenAdminMenuFormButton
             // 
-            OpenAdminMenuFormButton.Location = new Point(515, 618);
+            OpenAdminMenuFormButton.Location = new Point(705, 618);
             OpenAdminMenuFormButton.Name = "OpenAdminMenuFormButton";
             OpenAdminMenuFormButton.Size = new Size(75, 23);
             OpenAdminMenuFormButton.TabIndex = 1;
@@ -84,7 +88,7 @@ namespace SystemObslugiPrzychodni
             // 
             // SearchUserButton
             // 
-            SearchUserButton.Location = new Point(515, 67);
+            SearchUserButton.Location = new Point(705, 69);
             SearchUserButton.Name = "SearchUserButton";
             SearchUserButton.Size = new Size(75, 23);
             SearchUserButton.TabIndex = 4;
@@ -104,7 +108,7 @@ namespace SystemObslugiPrzychodni
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(175, 40);
+            label3.Location = new Point(369, 40);
             label3.Name = "label3";
             label3.Size = new Size(60, 15);
             label3.TabIndex = 6;
@@ -113,7 +117,7 @@ namespace SystemObslugiPrzychodni
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(334, 40);
+            label4.Location = new Point(546, 40);
             label4.Name = "label4";
             label4.Size = new Size(41, 15);
             label4.TabIndex = 7;
@@ -121,21 +125,21 @@ namespace SystemObslugiPrzychodni
             // 
             // textBoxSurname
             // 
-            textBoxSurname.Location = new Point(175, 68);
+            textBoxSurname.Location = new Point(369, 68);
             textBoxSurname.Name = "textBoxSurname";
             textBoxSurname.Size = new Size(153, 23);
             textBoxSurname.TabIndex = 8;
             // 
             // textBoxPESEL
             // 
-            textBoxPESEL.Location = new Point(334, 68);
+            textBoxPESEL.Location = new Point(546, 68);
             textBoxPESEL.Name = "textBoxPESEL";
             textBoxPESEL.Size = new Size(153, 23);
             textBoxPESEL.TabIndex = 9;
             // 
             // ResetViewButton
             // 
-            ResetViewButton.Location = new Point(515, 32);
+            ResetViewButton.Location = new Point(705, 36);
             ResetViewButton.Name = "ResetViewButton";
             ResetViewButton.Size = new Size(75, 23);
             ResetViewButton.TabIndex = 10;
@@ -153,11 +157,41 @@ namespace SystemObslugiPrzychodni
             OpenUserDetailsForm.UseVisualStyleBackColor = true;
             OpenUserDetailsForm.Click += OpenUserDetailsForm_Click;
             // 
+            // BtnForgetUser
+            // 
+            BtnForgetUser.Location = new Point(184, 620);
+            BtnForgetUser.Margin = new Padding(3, 2, 3, 2);
+            BtnForgetUser.Name = "BtnForgetUser";
+            BtnForgetUser.Size = new Size(158, 22);
+            BtnForgetUser.TabIndex = 12;
+            BtnForgetUser.Text = "Zapomij użytkownika";
+            BtnForgetUser.UseVisualStyleBackColor = true;
+            BtnForgetUser.Click += BtnForgetUser_Click;
+            // 
+            // textBoxName
+            // 
+            textBoxName.Location = new Point(189, 68);
+            textBoxName.Name = "textBoxName";
+            textBoxName.Size = new Size(153, 23);
+            textBoxName.TabIndex = 13;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(189, 40);
+            label5.Name = "label5";
+            label5.Size = new Size(33, 15);
+            label5.TabIndex = 14;
+            label5.Text = "Imię:";
+            // 
             // UserListForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(602, 653);
+            ClientSize = new Size(792, 653);
+            Controls.Add(label5);
+            Controls.Add(textBoxName);
+            Controls.Add(BtnForgetUser);
             Controls.Add(OpenUserDetailsForm);
             Controls.Add(ResetViewButton);
             Controls.Add(textBoxPESEL);
@@ -191,5 +225,8 @@ namespace SystemObslugiPrzychodni
         private TextBox textBoxPESEL;
         private Button ResetViewButton;
         private Button OpenUserDetailsForm;
+        private Button BtnForgetUser;
+        private TextBox textBoxName;
+        private Label label5;
     }
 }

@@ -30,13 +30,15 @@
         {
             OpenAddUserFormButton = new Button();
             OpenUserListFormButton = new Button();
+            btnViewForgottenUsers = new Button();
             SuspendLayout();
             // 
             // OpenAddUserFormButton
             // 
-            OpenAddUserFormButton.Location = new Point(376, 241);
+            OpenAddUserFormButton.Location = new Point(430, 321);
+            OpenAddUserFormButton.Margin = new Padding(3, 4, 3, 4);
             OpenAddUserFormButton.Name = "OpenAddUserFormButton";
-            OpenAddUserFormButton.Size = new Size(192, 41);
+            OpenAddUserFormButton.Size = new Size(219, 55);
             OpenAddUserFormButton.TabIndex = 1;
             OpenAddUserFormButton.Text = "Dodaj użytkownika";
             OpenAddUserFormButton.UseVisualStyleBackColor = true;
@@ -44,21 +46,34 @@
             // 
             // OpenUserListFormButton
             // 
-            OpenUserListFormButton.Location = new Point(376, 298);
+            OpenUserListFormButton.Location = new Point(430, 397);
+            OpenUserListFormButton.Margin = new Padding(3, 4, 3, 4);
             OpenUserListFormButton.Name = "OpenUserListFormButton";
-            OpenUserListFormButton.Size = new Size(192, 36);
+            OpenUserListFormButton.Size = new Size(219, 48);
             OpenUserListFormButton.TabIndex = 2;
             OpenUserListFormButton.Text = "Lista użytkowników";
             OpenUserListFormButton.UseVisualStyleBackColor = true;
             OpenUserListFormButton.Click += OpenUserListFormButton_Click;
             // 
+            // btnViewForgottenUsers
+            // 
+            btnViewForgottenUsers.Location = new Point(430, 468);
+            btnViewForgottenUsers.Name = "btnViewForgottenUsers";
+            btnViewForgottenUsers.Size = new Size(219, 49);
+            btnViewForgottenUsers.TabIndex = 3;
+            btnViewForgottenUsers.Text = "Lista zapomnianych użytkowników";
+            btnViewForgottenUsers.UseVisualStyleBackColor = true;
+            btnViewForgottenUsers.Click += btnViewForgottenUsers_Click;
+            // 
             // AdminMenuForm
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1068, 571);
+            ClientSize = new Size(1221, 761);
+            Controls.Add(btnViewForgottenUsers);
             Controls.Add(OpenUserListFormButton);
             Controls.Add(OpenAddUserFormButton);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "AdminMenuForm";
             Text = "Menu Administracyjne";
             ResumeLayout(false);
@@ -67,5 +82,6 @@
         #endregion
         private Button OpenAddUserFormButton;
         private Button OpenUserListFormButton;
+        private Button btnViewForgottenUsers;
     }
 }

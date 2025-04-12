@@ -17,9 +17,6 @@ namespace SystemObslugiPrzychodni
         public UserAddForm()
         {
             InitializeComponent();
-            comboBoxRole.DataSource = Role.roles;
-            comboBoxRole.DisplayMember = "name";
-            comboBoxRole.ValueMember = "role_id";
             comboBoxSex.Items.Add("Kobieta");
             comboBoxSex.Items.Add("Mężczyzna");
         }
@@ -38,15 +35,14 @@ namespace SystemObslugiPrzychodni
                 string.IsNullOrWhiteSpace(textBoxPESEL.Text) ||
                 string.IsNullOrWhiteSpace(textBoxEmail.Text) ||
                 string.IsNullOrWhiteSpace(textBoxPhone.Text) ||
-                comboBoxSex.SelectedItem == null ||
-                comboBoxRole.SelectedValue == null)
+                comboBoxSex.SelectedItem == null)
             {
                 MessageBox.Show("Wszystkie pola muszą być wypełnione.");
                 return;
             }
 
             //unikalność loginu
-            if (UserManagement.IsValueUnique(textBoxLogin.Text, "login"))
+            if (!UserManagement.IsValueUnique(textBoxLogin.Text, "login"))
             {
                 MessageBox.Show("Login już istnieje w systemie.");
             }
@@ -66,7 +62,7 @@ namespace SystemObslugiPrzychodni
             }
 
             //unikalność PESEL
-            if(UserManagement.IsValueUnique(textBoxPESEL.Text, "pesel"))
+            if (!UserManagement.IsValueUnique(textBoxPESEL.Text, "pesel"))
             {
                 MessageBox.Show("Numer PESEL już istnieje w systemie.");
             }
@@ -86,7 +82,7 @@ namespace SystemObslugiPrzychodni
             }
 
             //unikalność adresu email
-            if (UserManagement.IsValueUnique(textBoxEmail.Text, "email"))
+            if (!UserManagement.IsValueUnique(textBoxEmail.Text, "email"))
             {
                 MessageBox.Show("Adres email już istnieje w systemie.");
             }
@@ -123,7 +119,8 @@ namespace SystemObslugiPrzychodni
                     sex: (string)comboBoxSex.SelectedItem,
                     email: textBoxEmail.Text,
                     phone: textBoxPhone.Text,
-                    role_id: Convert.ToInt32(comboBoxRole.SelectedValue)
+                    role_id: 0,
+                    is_active: true
                 );
 
                 UserManagement.AddUser(newUser);

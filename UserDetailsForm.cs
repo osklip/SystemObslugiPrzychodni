@@ -17,9 +17,6 @@ namespace SystemObslugiPrzychodni
         public UserDetailsForm(User user)
         {
             InitializeComponent();
-            comboBoxRole.DataSource = Role.roles;
-            comboBoxRole.DisplayMember = "name";
-            comboBoxRole.ValueMember = "role_id";
             comboBoxSex.Items.Add("Kobieta");
             comboBoxSex.Items.Add("Mężczyzna");
             editedUser = user;
@@ -45,7 +42,6 @@ namespace SystemObslugiPrzychodni
             textBoxPhone.Visible = false;
             textBoxPESEL.Text = user.Pesel;
             textBoxPESEL.Visible = false;
-            comboBoxRole.Visible = false;
             comboBoxSex.Visible = false;
             dateTimePickerDateOfBirth.Value = DateTime.ParseExact(user.DateOfBirth, "dd.MM.yyyy", CultureInfo.InvariantCulture);
             dateTimePickerDateOfBirth.Visible = false;
@@ -68,7 +64,6 @@ namespace SystemObslugiPrzychodni
             labelPassword.Text = user.Password;
             textBoxPassword.Text = user.Password;
             textBoxPassword.Visible = false;
-            labelRole.Text = user.Role_id.ToString();
             comboBoxSex.SelectedItem = user.Sex;
         }
 
@@ -88,8 +83,7 @@ namespace SystemObslugiPrzychodni
             dateTimePickerDateOfBirth.Visible = true;
             SaveNewDetailsButton.Visible = true;
             textBoxStreet.Visible = true;
-            textBoxPassword.Visible=true;
-            comboBoxRole.Visible = true;
+            textBoxPassword.Visible = true;
             comboBoxSex.Visible = true;
         }
 
@@ -114,8 +108,7 @@ namespace SystemObslugiPrzychodni
                 string.IsNullOrWhiteSpace(textBoxPESEL.Text) ||
                 string.IsNullOrWhiteSpace(textBoxEmail.Text) ||
                 string.IsNullOrWhiteSpace(textBoxPhone.Text) ||
-                comboBoxSex.SelectedItem == null ||
-                comboBoxRole.SelectedValue == null)
+                comboBoxSex.SelectedItem == null)
             {
                 MessageBox.Show("Wszystkie pola muszą być wypełnione.");
                 return;
@@ -198,12 +191,17 @@ namespace SystemObslugiPrzychodni
                 editedUser.DateOfBirth = DateOnly.FromDateTime(dateTimePickerDateOfBirth.Value).ToString();
                 editedUser.City = textBoxCity.Text;
                 UserManagement.EditUser(editedUser);
-                MessageBox.Show($"Użytkownik edytowany pomyślnie.");
+                MessageBox.Show($"Dane użytkownika zostały zmienione");
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Błąd podczas edytowania użytkownika: {ex.Message}");
             }
+        }
+
+        private void UserDetailsForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -38,7 +38,6 @@
             comboBoxSex = new ComboBox();
             textBoxPESEL = new TextBox();
             textBoxEmail = new TextBox();
-            comboBoxRole = new ComboBox();
             dateTimePickerDateOfBirth = new DateTimePicker();
             label1 = new Label();
             label2 = new Label();
@@ -51,7 +50,6 @@
             label9 = new Label();
             label10 = new Label();
             label11 = new Label();
-            label12 = new Label();
             textBoxPhone = new TextBox();
             label13 = new Label();
             label14 = new Label();
@@ -60,6 +58,7 @@
             label15 = new Label();
             textBoxPassword = new TextBox();
             buttonCloseForm = new Button();
+            label12 = new Label();
             SuspendLayout();
             // 
             // AddUserButton
@@ -136,14 +135,6 @@
             textBoxEmail.Size = new Size(207, 23);
             textBoxEmail.TabIndex = 9;
             // 
-            // comboBoxRole
-            // 
-            comboBoxRole.FormattingEnabled = true;
-            comboBoxRole.Location = new Point(158, 361);
-            comboBoxRole.Name = "comboBoxRole";
-            comboBoxRole.Size = new Size(207, 23);
-            comboBoxRole.TabIndex = 10;
-            // 
             // dateTimePickerDateOfBirth
             // 
             dateTimePickerDateOfBirth.Location = new Point(158, 211);
@@ -156,36 +147,36 @@
             label1.AutoSize = true;
             label1.Location = new Point(29, 124);
             label1.Name = "label1";
-            label1.Size = new Size(33, 15);
+            label1.Size = new Size(41, 15);
             label1.TabIndex = 12;
-            label1.Text = "Imię:";
+            label1.Text = "Imię* :";
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Location = new Point(29, 174);
             label2.Name = "label2";
-            label2.Size = new Size(60, 15);
+            label2.Size = new Size(68, 15);
             label2.TabIndex = 13;
-            label2.Text = "Nazwisko:";
+            label2.Text = "Nazwisko* :";
             // 
             // label3
             // 
             label3.AutoSize = true;
             label3.Location = new Point(448, 27);
             label3.Name = "label3";
-            label3.Size = new Size(46, 15);
+            label3.Size = new Size(54, 15);
             label3.TabIndex = 14;
-            label3.Text = "Miasto:";
+            label3.Text = "Miasto* :";
             // 
             // label4
             // 
             label4.AutoSize = true;
             label4.Location = new Point(448, 76);
             label4.Name = "label4";
-            label4.Size = new Size(85, 15);
+            label4.Size = new Size(93, 15);
             label4.TabIndex = 15;
-            label4.Text = "Kod pocztowy:";
+            label4.Text = "Kod pocztowy* :";
             // 
             // label5
             // 
@@ -201,63 +192,54 @@
             label6.AutoSize = true;
             label6.Location = new Point(448, 174);
             label6.Name = "label6";
-            label6.Size = new Size(82, 15);
+            label6.Size = new Size(90, 15);
             label6.TabIndex = 17;
-            label6.Text = "Numer domu:";
+            label6.Text = "Numer domu* :";
             // 
             // label7
             // 
             label7.AutoSize = true;
             label7.Location = new Point(29, 219);
             label7.Name = "label7";
-            label7.Size = new Size(89, 15);
+            label7.Size = new Size(97, 15);
             label7.TabIndex = 18;
-            label7.Text = "Data urodzenia:";
+            label7.Text = "Data urodzenia* :";
             // 
             // label8
             // 
             label8.AutoSize = true;
             label8.Location = new Point(29, 267);
             label8.Name = "label8";
-            label8.Size = new Size(32, 15);
+            label8.Size = new Size(40, 15);
             label8.TabIndex = 19;
-            label8.Text = "Płeć:";
+            label8.Text = "Płeć* :";
             // 
             // label9
             // 
             label9.AutoSize = true;
             label9.Location = new Point(29, 318);
             label9.Name = "label9";
-            label9.Size = new Size(41, 15);
+            label9.Size = new Size(49, 15);
             label9.TabIndex = 20;
-            label9.Text = "PESEL:";
+            label9.Text = "PESEL* :";
             // 
             // label10
             // 
             label10.AutoSize = true;
             label10.Location = new Point(448, 267);
             label10.Name = "label10";
-            label10.Size = new Size(72, 15);
+            label10.Size = new Size(80, 15);
             label10.TabIndex = 21;
-            label10.Text = "Adres email:";
+            label10.Text = "Adres email* :";
             // 
             // label11
             // 
             label11.AutoSize = true;
             label11.Location = new Point(448, 318);
             label11.Name = "label11";
-            label11.Size = new Size(94, 15);
+            label11.Size = new Size(102, 15);
             label11.TabIndex = 22;
-            label11.Text = "Numer telefonu:";
-            // 
-            // label12
-            // 
-            label12.AutoSize = true;
-            label12.Location = new Point(29, 369);
-            label12.Name = "label12";
-            label12.Size = new Size(33, 15);
-            label12.TabIndex = 23;
-            label12.Text = "Rola:";
+            label11.Text = "Numer telefonu* :";
             // 
             // textBoxPhone
             // 
@@ -271,9 +253,9 @@
             label13.AutoSize = true;
             label13.Location = new Point(29, 27);
             label13.Name = "label13";
-            label13.Size = new Size(40, 15);
+            label13.Size = new Size(48, 15);
             label13.TabIndex = 25;
-            label13.Text = "Login:";
+            label13.Text = "Login* :";
             // 
             // label14
             // 
@@ -303,9 +285,9 @@
             label15.AutoSize = true;
             label15.Location = new Point(29, 76);
             label15.Name = "label15";
-            label15.Size = new Size(40, 15);
+            label15.Size = new Size(48, 15);
             label15.TabIndex = 30;
-            label15.Text = "Hasło:";
+            label15.Text = "Hasło* :";
             // 
             // textBoxPassword
             // 
@@ -316,7 +298,7 @@
             // 
             // buttonCloseForm
             // 
-            buttonCloseForm.Location = new Point(649, 481);
+            buttonCloseForm.Location = new Point(649, 440);
             buttonCloseForm.Name = "buttonCloseForm";
             buttonCloseForm.Size = new Size(134, 23);
             buttonCloseForm.TabIndex = 32;
@@ -324,11 +306,21 @@
             buttonCloseForm.UseVisualStyleBackColor = true;
             buttonCloseForm.Click += buttonCloseForm_Click;
             // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(29, 444);
+            label12.Name = "label12";
+            label12.Size = new Size(235, 15);
+            label12.TabIndex = 33;
+            label12.Text = "* - pola oznaczone gwiazdką są wymagane.";
+            // 
             // UserAddForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(795, 516);
+            ClientSize = new Size(795, 478);
+            Controls.Add(label12);
             Controls.Add(buttonCloseForm);
             Controls.Add(textBoxPassword);
             Controls.Add(label15);
@@ -337,7 +329,6 @@
             Controls.Add(label14);
             Controls.Add(label13);
             Controls.Add(textBoxPhone);
-            Controls.Add(label12);
             Controls.Add(label11);
             Controls.Add(label10);
             Controls.Add(label9);
@@ -350,7 +341,6 @@
             Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(dateTimePickerDateOfBirth);
-            Controls.Add(comboBoxRole);
             Controls.Add(textBoxEmail);
             Controls.Add(textBoxPESEL);
             Controls.Add(comboBoxSex);
@@ -379,7 +369,6 @@
         private ComboBox comboBoxSex;
         private TextBox textBoxPESEL;
         private TextBox textBoxEmail;
-        private ComboBox comboBoxRole;
         private DateTimePicker dateTimePickerDateOfBirth;
         private Label label1;
         private Label label2;
@@ -392,7 +381,6 @@
         private Label label9;
         private Label label10;
         private Label label11;
-        private Label label12;
         private TextBox textBoxPhone;
         private Label label13;
         private Label label14;
@@ -401,5 +389,6 @@
         private Label label15;
         private TextBox textBoxPassword;
         private Button buttonCloseForm;
+        private Label label12;
     }
 }

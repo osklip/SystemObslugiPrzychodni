@@ -76,9 +76,6 @@
             labelPassword = new Label();
             textBoxPassword = new TextBox();
             comboBoxSex = new ComboBox();
-            label3 = new Label();
-            labelRole = new Label();
-            comboBoxRole = new ComboBox();
             SuspendLayout();
             // 
             // labelDane
@@ -489,40 +486,11 @@
             comboBoxSex.Size = new Size(200, 23);
             comboBoxSex.TabIndex = 51;
             // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new Point(12, 366);
-            label3.Name = "label3";
-            label3.Size = new Size(33, 15);
-            label3.TabIndex = 52;
-            label3.Text = "Rola:";
-            // 
-            // labelRole
-            // 
-            labelRole.AutoSize = true;
-            labelRole.Location = new Point(150, 366);
-            labelRole.Name = "labelRole";
-            labelRole.Size = new Size(36, 15);
-            labelRole.TabIndex = 53;
-            labelRole.Text = "NULL";
-            // 
-            // comboBoxRole
-            // 
-            comboBoxRole.FormattingEnabled = true;
-            comboBoxRole.Location = new Point(308, 363);
-            comboBoxRole.Name = "comboBoxRole";
-            comboBoxRole.Size = new Size(200, 23);
-            comboBoxRole.TabIndex = 54;
-            // 
             // UserDetailsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(540, 738);
-            Controls.Add(comboBoxRole);
-            Controls.Add(labelRole);
-            Controls.Add(label3);
             Controls.Add(comboBoxSex);
             Controls.Add(textBoxPassword);
             Controls.Add(labelPassword);
@@ -573,6 +541,7 @@
             Controls.Add(labelDane);
             Name = "UserDetailsForm";
             Text = "UserDetailsForm";
+            Load += UserDetailsForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -627,8 +596,5 @@
         private Label labelPassword;
         private TextBox textBoxPassword;
         private ComboBox comboBoxSex;
-        private Label label3;
-        private Label labelRole;
-        private ComboBox comboBoxRole;
     }
 }

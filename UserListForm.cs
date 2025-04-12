@@ -40,6 +40,7 @@ namespace SystemObslugiPrzychodni
             dataGridViewUserList.Columns["Sex"].Visible = false;
             dataGridViewUserList.Columns["Phone"].Visible = false;
             dataGridViewUserList.Columns["Role_id"].Visible = false;
+            dataGridViewUserList.Columns["Is_active"].Visible = false;
         }
 
         private void OpenAdminMenuFormButton_Click(object sender, EventArgs e)
@@ -99,6 +100,37 @@ namespace SystemObslugiPrzychodni
             else
             {
                 MessageBox.Show("Nie wybrano użytkownika.");
+            }
+        }
+
+        private void BtnForgetUser_Click(object sender, EventArgs e)
+        {
+            if (dataGridViewUserList.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = dataGridViewUserList.SelectedRows[0];
+                User selectedUser = selectedRow.DataBoundItem as User;
+
+                if (selectedUser != null)
+                {
+                    var result = MessageBox.Show(
+                        $"Czy na pewno chcesz zapomnieć użytkownika {selectedUser.Name} {selectedUser.Surname}?",
+                        "Potwierdzenie", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                    if (result == DialogResult.Yes)
+                    {
+                        UserManagement.ForgetUser(selectedUser,1);
+                        MessageBox.Show("Użytkownik został zapomniany.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        RefreshUserList();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Nie udało się pobrać danych użytkownika.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Proszę zaznaczyć użytkownika na liście.");
             }
         }
     }

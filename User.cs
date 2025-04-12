@@ -70,8 +70,12 @@ namespace SystemObslugiPrzychodni
         public int Role_id
         { get; set; }
 
+    //  private bool is_active;
+        public bool Is_active
+        { get; set; }
+
         public User(int user_id, string login, string password, string name, string surname, string city, string post_code, string street, string street_number, string? apartment_number, 
-                    string pesel, string date_of_birth, string sex, string email, string phone, int role_id)
+                    string pesel, string date_of_birth, string sex, string email, string phone, int role_id, bool is_active)
         {
             User_id = user_id;
             Login = login;
@@ -89,6 +93,7 @@ namespace SystemObslugiPrzychodni
             Email = email;
             Phone = phone;
             Role_id = role_id;
+            Is_active = is_active;
         }
 
         public override string ToString()

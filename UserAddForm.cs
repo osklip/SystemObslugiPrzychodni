@@ -123,7 +123,8 @@ namespace SystemObslugiPrzychodni
                     sex: (string)comboBoxSex.SelectedItem,
                     email: textBoxEmail.Text,
                     phone: textBoxPhone.Text,
-                    role_id: Convert.ToInt32(comboBoxRole.SelectedValue)
+                    role_id: Convert.ToInt32(comboBoxRole.SelectedValue),
+                    is_active: true
                 );
 
                 UserManagement.AddUser(newUser);

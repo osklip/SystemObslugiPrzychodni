@@ -352,7 +352,7 @@
             Controls.Add(textBoxName);
             Controls.Add(AddUserButton);
             Name = "UserAddForm";
-            Text = "Dodawanie Użytkownika";
+            Text = "Dodawanie użytkownika";
             ResumeLayout(false);
             PerformLayout();
         }

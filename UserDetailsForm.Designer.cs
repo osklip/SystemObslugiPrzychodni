@@ -540,7 +540,7 @@
             Controls.Add(labelNoweDane);
             Controls.Add(labelDane);
             Name = "UserDetailsForm";
-            Text = "UserDetailsForm";
+            Text = "Szczegóły użytkownika";
             Load += UserDetailsForm_Load;
             ResumeLayout(false);
             PerformLayout();

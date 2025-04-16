@@ -96,130 +96,143 @@ namespace SystemObslugiPrzychodni
 
         public void SaveNewDetailsButton_Click(object sender, EventArgs e)
         {
-            //walidacja "czy niepuste"
-            if (string.IsNullOrWhiteSpace(textBoxLogin.Text) ||
-                string.IsNullOrWhiteSpace(textBoxPassword.Text) ||
-                string.IsNullOrWhiteSpace(textBoxName.Text) ||
-                string.IsNullOrWhiteSpace(textBoxSurname.Text) ||
-                string.IsNullOrWhiteSpace(textBoxCity.Text) ||
-                string.IsNullOrWhiteSpace(textBoxPostCode.Text) ||
-                string.IsNullOrWhiteSpace(textBoxStreet.Text) ||
-                string.IsNullOrWhiteSpace(textBoxStreetNumber.Text) ||
-                string.IsNullOrWhiteSpace(textBoxPESEL.Text) ||
-                string.IsNullOrWhiteSpace(textBoxEmail.Text) ||
-                string.IsNullOrWhiteSpace(textBoxPhone.Text) ||
-                comboBoxSex.SelectedItem == null)
+            if (textBoxLogin.Text == editedUser.Login || textBoxPassword.Text == editedUser.Password ||
+                textBoxName.Text == editedUser.Name || textBoxSurname.Text == editedUser.Surname ||
+                textBoxCity.Text == editedUser.City || textBoxPostCode.Text == editedUser.Post_Code ||
+                textBoxStreet.Text == editedUser.Street || textBoxStreetNumber.Text == editedUser.Street_number ||
+                textBoxPESEL.Text == editedUser.Pesel || textBoxEmail.Text == editedUser.Email ||
+                textBoxPhone.Text == editedUser.Phone || comboBoxSex.SelectedItem == editedUser.Sex)
             {
-                MessageBox.Show("Wypełnij wszystkie wymagane pola.");
-                return;
-            }
-
-            //walidacja "tylko litery" dla imienia i nazwiska
-            if (textBoxName.Text != editedUser.Name)
-            {
-                if (textBoxName.Text.All(char.IsLetter))
+                //walidacja "czy niepuste"
+                if (string.IsNullOrWhiteSpace(textBoxLogin.Text) ||
+                    string.IsNullOrWhiteSpace(textBoxPassword.Text) ||
+                    string.IsNullOrWhiteSpace(textBoxName.Text) ||
+                    string.IsNullOrWhiteSpace(textBoxSurname.Text) ||
+                    string.IsNullOrWhiteSpace(textBoxCity.Text) ||
+                    string.IsNullOrWhiteSpace(textBoxPostCode.Text) ||
+                    string.IsNullOrWhiteSpace(textBoxStreet.Text) ||
+                    string.IsNullOrWhiteSpace(textBoxStreetNumber.Text) ||
+                    string.IsNullOrWhiteSpace(textBoxPESEL.Text) ||
+                    string.IsNullOrWhiteSpace(textBoxEmail.Text) ||
+                    string.IsNullOrWhiteSpace(textBoxPhone.Text) ||
+                    comboBoxSex.SelectedItem == null)
                 {
-                    MessageBox.Show("Imię i nazwisko mogą zawierać wyłącznie litery alfabetu (bez cyfr i znaków specjalnych).");
+                    MessageBox.Show("Wypełnij wszystkie wymagane pola.");
                     return;
                 }
-            }
 
-            if (textBoxSurname.Text != editedUser.Surname)
-            {
-                if (textBoxSurname.Text.All(char.IsLetter))
+                //walidacja "tylko litery" dla imienia i nazwiska
+                if (textBoxName.Text != editedUser.Name)
                 {
-                    MessageBox.Show("Imię i nazwisko mogą zawierać wyłącznie litery alfabetu (bez cyfr i znaków specjalnych).");
+                    if (textBoxName.Text.All(char.IsLetter))
+                    {
+                        MessageBox.Show("Imię i nazwisko mogą zawierać wyłącznie litery alfabetu (bez cyfr i znaków specjalnych).");
+                        return;
+                    }
+                }
+
+                if (textBoxSurname.Text != editedUser.Surname)
+                {
+                    if (textBoxSurname.Text.All(char.IsLetter))
+                    {
+                        MessageBox.Show("Imię i nazwisko mogą zawierać wyłącznie litery alfabetu (bez cyfr i znaków specjalnych).");
+                        return;
+                    }
+                }
+
+                //unikalność loginu
+                if (editedUser.Login != textBoxLogin.Text)
+                {
+                    if (!UserManagement.IsValueUnique(textBoxLogin.Text, "login"))
+                    {
+                        MessageBox.Show("Podany login jest już zajęty. Wprowadź inny login.");
+                        return;
+                    }
+                }
+
+                //walidacja 9 cyfr w numerze telefonu
+                if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxPhone.Text, @"^\d{9}$"))
+                {
+                    MessageBox.Show("Numer telefonu musi zawierać dokładnie 9 cyfr.");
                     return;
                 }
-            }
 
-            //unikalność loginu
-            if (editedUser.Login != textBoxLogin.Text)
-            {
-                if (!UserManagement.IsValueUnique(textBoxLogin.Text, "login"))
+                //walidacja 11 cyfr w numerze PESEL
+                if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxPESEL.Text, @"^\d{11}$"))
                 {
-                    MessageBox.Show("Podany login jest już zajęty. Wprowadź inny login.");
+                    MessageBox.Show("Nieprawidłowy numer PESEL.");
                     return;
                 }
-            }
 
-            //walidacja 9 cyfr w numerze telefonu
-            if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxPhone.Text, @"^\d{9}$"))
-            {
-                MessageBox.Show("Numer telefonu musi zawierać dokładnie 9 cyfr.");
-                return;
-            }
-
-            //walidacja 11 cyfr w numerze PESEL
-            if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxPESEL.Text, @"^\d{11}$"))
-            {
-                MessageBox.Show("Nieprawidłowy numer PESEL.");
-                return;
-            }
-
-            //unikalność PESEL
-            if (editedUser.Pesel != textBoxPESEL.Text)
-            {
-                if (!UserManagement.IsValueUnique(textBoxPESEL.Text, "pesel"))
+                //unikalność PESEL
+                if (editedUser.Pesel != textBoxPESEL.Text)
                 {
-                    MessageBox.Show("Użytkownik o podanym numerze PESEL już istnieje w systemie.");
+                    if (!UserManagement.IsValueUnique(textBoxPESEL.Text, "pesel"))
+                    {
+                        MessageBox.Show("Użytkownik o podanym numerze PESEL już istnieje w systemie.");
+                        return;
+                    }
+                }
+
+                //walidacja formatu kodu pocztowego
+                if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxPostCode.Text, @"^\d{2}-\d{3}$"))
+                {
+                    MessageBox.Show("Kod pocztowy ma nieprawidłowy format.");
                     return;
                 }
-            }
 
-            //walidacja formatu kodu pocztowego
-            if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxPostCode.Text, @"^\d{2}-\d{3}$"))
-            {
-                MessageBox.Show("Kod pocztowy ma nieprawidłowy format.");
-                return;
-            }
-
-            //walidacja formatu adresu email
-            if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$") || textBoxEmail.Text.Length > 255)
-            {
-                MessageBox.Show("Adres e‑mail ma nieprawidłowy format.");
-                return;
-            }
-
-            //unikalność adresu email
-            if (editedUser.Email != textBoxEmail.Text)
-            {
-                if (!UserManagement.IsValueUnique(textBoxEmail.Text, "email"))
+                //walidacja formatu adresu email
+                if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$") || textBoxEmail.Text.Length > 255)
                 {
-                    MessageBox.Show("Podany adres e‑mail jest już przypisany do innego użytkownika.");
+                    MessageBox.Show("Adres e‑mail ma nieprawidłowy format.");
                     return;
                 }
-            }
 
-            //walidacja daty urodzenia (nie może być dalsza niż dzisiejsza data)
-            if (dateTimePickerDateOfBirth.Value.Date >= DateTime.Today)
+                //unikalność adresu email
+                if (editedUser.Email != textBoxEmail.Text)
+                {
+                    if (!UserManagement.IsValueUnique(textBoxEmail.Text, "email"))
+                    {
+                        MessageBox.Show("Podany adres e‑mail jest już przypisany do innego użytkownika.");
+                        return;
+                    }
+                }
+
+                //walidacja daty urodzenia (nie może być dalsza niż dzisiejsza data)
+                if (dateTimePickerDateOfBirth.Value.Date >= DateTime.Today)
+                {
+                    MessageBox.Show("Data urodzenia musi być wcześniejsza niż dzisiejsza data.");
+                    return;
+                }
+
+                try
+                {
+                    editedUser.Login = textBoxLogin.Text;
+                    editedUser.Password = textBoxPassword.Text;
+                    editedUser.Name = textBoxName.Text;
+                    editedUser.Surname = textBoxSurname.Text;
+                    editedUser.Pesel = textBoxPESEL.Text;
+                    editedUser.Sex = comboBoxSex.SelectedItem.ToString();
+                    editedUser.Post_Code = textBoxPostCode.Text;
+                    editedUser.Street_number = textBoxStreetNumber.Text;
+                    editedUser.Apartment_number = textBoxApartmentNumber.Text;
+                    editedUser.Email = textBoxEmail.Text;
+                    editedUser.Phone = textBoxPhone.Text;
+                    editedUser.Street = textBoxStreet.Text;
+                    editedUser.DateOfBirth = DateOnly.FromDateTime(dateTimePickerDateOfBirth.Value).ToString();
+                    editedUser.City = textBoxCity.Text;
+                    UserManagement.EditUser(editedUser);
+                    MessageBox.Show($"Dane użytkownika zostały zmienione");
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Błąd podczas edytowania użytkownika: {ex.Message}");
+                }
+            } 
+            else
             {
-                MessageBox.Show("Data urodzenia musi być wcześniejsza niż dzisiejsza data.");
+                MessageBox.Show("Dane nie zostały zmienione.");
                 return;
-            }
-
-            try
-            {
-                editedUser.Login = textBoxLogin.Text;
-                editedUser.Password = textBoxPassword.Text;
-                editedUser.Name = textBoxName.Text;
-                editedUser.Surname = textBoxSurname.Text;
-                editedUser.Pesel = textBoxPESEL.Text;
-                editedUser.Sex = comboBoxSex.SelectedItem.ToString();
-                editedUser.Post_Code = textBoxPostCode.Text;
-                editedUser.Street_number = textBoxStreetNumber.Text;
-                editedUser.Apartment_number = textBoxApartmentNumber.Text;
-                editedUser.Email = textBoxEmail.Text;
-                editedUser.Phone = textBoxPhone.Text;
-                editedUser.Street = textBoxStreet.Text;
-                editedUser.DateOfBirth = DateOnly.FromDateTime(dateTimePickerDateOfBirth.Value).ToString();
-                editedUser.City = textBoxCity.Text;
-                UserManagement.EditUser(editedUser);
-                MessageBox.Show($"Dane użytkownika zostały zmienione");
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Błąd podczas edytowania użytkownika: {ex.Message}");
             }
         }
 

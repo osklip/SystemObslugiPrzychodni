@@ -43,7 +43,7 @@ namespace SystemObslugiPrzychodni
             }
 
             //walidacja "tylko litery" dla imienia i nazwiska
-            if (textBoxName.Text.All(char.IsLetter) || textBoxSurname.Text.All(char.IsLetter))
+            if (!textBoxName.Text.All(char.IsLetter) || !textBoxSurname.Text.All(char.IsLetter))
             {
                 MessageBox.Show("Imię i nazwisko mogą zawierać wyłącznie litery alfabetu (bez cyfr i znaków specjalnych).");
             }
@@ -56,14 +56,15 @@ namespace SystemObslugiPrzychodni
             }
 
             //walidacja 9 cyfr w numerze telefonu
-            if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxPhone.Text, @"^\d{9}$"))
+            if (!Regex.IsMatch(textBoxPhone.Text, @"^\d{9}$"))
             {
                 MessageBox.Show("Numer telefonu musi zawierać dokładnie 9 cyfr.");
                 return;
             }
 
             //walidacja 11 cyfr w numerze PESEL
-            if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxPESEL.Text, @"^\d{11}$"))
+            if (!Regex.IsMatch(textBoxPESEL.Text, @"^\d{11}$") ||
+                !UserManagement.ValidatorPESEL(dateTimePickerDateOfBirth.Value, textBoxPESEL.Text, comboBoxSex.SelectedItem.ToString()))
             {
                 MessageBox.Show("Nieprawidłowy numer PESEL.");
                 return;
@@ -77,14 +78,14 @@ namespace SystemObslugiPrzychodni
             }
 
             //walidacja formatu kodu pocztowego
-            if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxPostCode.Text, @"^\d{2}-\d{3}$"))
+            if (!Regex.IsMatch(textBoxPostCode.Text, @"^\d{2}-\d{3}$"))
             {
                 MessageBox.Show("Kod pocztowy ma nieprawidłowy format.");
                 return;
             }
 
             //walidacja formatu adresu email
-            if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$") || textBoxEmail.Text.Length > 255)
+            if (!Regex.IsMatch(textBoxEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$") || textBoxEmail.Text.Length > 255)
             {
                 MessageBox.Show("Adres e‑mail ma nieprawidłowy format.");
                 return;
@@ -98,9 +99,9 @@ namespace SystemObslugiPrzychodni
             }
 
             //walidacja daty urodzenia (nie może być dalsza niż dzisiejsza data)
-            if (dateTimePickerDateOfBirth.Value.Date >= DateTime.Today)
+            if (dateTimePickerDateOfBirth.Value.Date > DateTime.Today)
             {
-                MessageBox.Show("Data urodzenia musi być wcześniejsza niż dzisiejsza data.");
+                MessageBox.Show("Data urodzenia nie może być późniejsza niż dzisiejsza data.");
                 return;
             }
 
@@ -127,14 +128,14 @@ namespace SystemObslugiPrzychodni
                 );
 
                 UserManagement.AddUser(newUser);
-                MessageBox.Show($"Użytkownik został pomyślnie dodany do systemu.");
+                MessageBox.Show("Użytkownik został pomyślnie dodany do systemu.");
                 AdminMenuForm form1 = new AdminMenuForm();
                 form1.Show();
                 this.Close();
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Błąd podczas dodawania użytkownika: {ex.Message}");
+                MessageBox.Show("Wystąpił błąd podczas komunikacji z serwerem");
             }
         }
 

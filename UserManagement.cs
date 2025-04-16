@@ -12,6 +12,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.VisualBasic.Logging;
 using System.IO;
 using System.Collections;
+using System.Globalization;
 
 namespace SystemObslugiPrzychodni
 {
@@ -342,6 +343,47 @@ namespace SystemObslugiPrzychodni
                 long count = (long)command.ExecuteScalar();
                 return count == 0;
             }
+        }
+
+        public static bool ValidatorPESEL(DateTime dateOfBirth, string pesel, string sex)
+        {
+            if (pesel.Length != 11 || !pesel.All(char.IsDigit))
+                return false;
+
+            string year = dateOfBirth.Year.ToString("00");
+            string day = dateOfBirth.Day.ToString("00");
+            string rr = dateOfBirth.Year.ToString().Substring(2, 2);
+
+            int mm = dateOfBirth.Month;
+            if (dateOfBirth.Year >= 2000 && dateOfBirth.Year < 2100)
+                mm += 20; // dodanie 20 do miesiąca
+
+            string rrmmdd = rr + mm.ToString("00") + day;
+            if (!pesel.StartsWith(rrmmdd))
+                return false;
+
+            int sexNumber = int.Parse(pesel[9].ToString());
+            bool IsWoman = sexNumber % 2 == 0;
+
+            if ((sex.ToLower() == "Kobieta" && !IsWoman) ||
+                (sex.ToLower() == "Mężczyzna" && IsWoman))
+            {
+                return false;
+            }
+
+            int[] wages = { 1, 3, 7, 9, 1, 3, 7, 9, 1, 3 };
+            int sum = 0;
+
+            for (int i = 0; i < 10; i++)
+            {
+                int number = int.Parse(pesel[i].ToString());
+                int product = (number * wages[i]) % 10; // tylko ostatnia cyfra
+                sum += product;
+            }
+
+            int controlNumber = (10 - (sum % 10)) % 10;
+
+            return controlNumber == int.Parse(pesel[10].ToString());
         }
     }
 }

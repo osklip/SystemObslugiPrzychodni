@@ -22,6 +22,11 @@ namespace SystemObslugiPrzychodni
         {
             dataGridViewUserList.DataSource = null;
             dataGridViewUserList.DataSource = UserManagement.GetAllUsers();
+            if (UserManagement.GetAllUsers().Count == 0)
+            {
+                dataGridViewUserList.DataSource = null;
+                MessageBox.Show("W systemie nie ma żadnych użytkowników.");
+            }
             HideData();
         }
 
@@ -66,8 +71,6 @@ namespace SystemObslugiPrzychodni
 
             if (filteredUsers.Count > 0)
             {
-                System.Diagnostics.Debug.WriteLine("Liczba wszystkich użytkowników: " + UserManagement.users.Count);
-                System.Diagnostics.Debug.WriteLine("Liczba po filtrze: " + filteredUsers.Count);
                 dataGridViewUserList.DataSource = null;
                 dataGridViewUserList.DataSource = filteredUsers;
                 HideData();
@@ -87,32 +90,10 @@ namespace SystemObslugiPrzychodni
         private void ResetViewButton_Click(object sender, EventArgs e)
         {
             RefreshUserList();
-        }
-
-        private void OpenUserDetailsForm_Click(object sender, EventArgs e)
-        {
-            if (dataGridViewUserList.SelectedRows.Count > 0)
-            {
-                DataGridViewRow selectedRow = dataGridViewUserList.SelectedRows[0];
-
-                User selectedUser = selectedRow.DataBoundItem as User;
-
-                if (selectedUser != null)
-                {
-                    UserDetailsForm editForm = new UserDetailsForm(selectedUser);
-                    editForm.Show();
-                    this.Close();
-                    //RefreshUserList();
-                }
-                else
-                {
-                    MessageBox.Show("Nie udało się pobrać danych użytkownika.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Nie wybrano użytkownika.");
-            }
+            textBoxLogin.Text = string.Empty;
+            textBoxName.Text = string.Empty;
+            textBoxSurname.Text = string.Empty;
+            textBoxPESEL.Text = string.Empty;
         }
 
         private void BtnForgetUser_Click(object sender, EventArgs e)
@@ -143,6 +124,32 @@ namespace SystemObslugiPrzychodni
             else
             {
                 MessageBox.Show("Proszę zaznaczyć użytkownika na liście.");
+            }
+        }
+
+        private void OpenUserDetailsForm2_Click_1(object sender, EventArgs e)
+        {
+            if (dataGridViewUserList.SelectedRows.Count > 0)
+            {
+                DataGridViewRow selectedRow = dataGridViewUserList.SelectedRows[0];
+
+                User selectedUser = selectedRow.DataBoundItem as User;
+
+                if (selectedUser != null)
+                {
+                    UserDetailsForm editForm = new UserDetailsForm(selectedUser);
+                    editForm.Show();
+                    this.Close();
+                    //RefreshUserList();
+                }
+                else
+                {
+                    MessageBox.Show("Nie udało się pobrać danych użytkownika.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nie wybrano użytkownika.");
             }
         }
     }

@@ -287,7 +287,8 @@ namespace SystemObslugiPrzychodni
                 var command = connection.CreateCommand();
                 command.CommandText = @"
                                         SELECT *
-                                        FROM tbl_user;
+                                        FROM tbl_user
+                                        WHERE is_active = 1;
                                        ";
 
                 using (var reader = command.ExecuteReader())
@@ -319,7 +320,6 @@ namespace SystemObslugiPrzychodni
                     }
                 }
             }
-
             return users;
         }
 

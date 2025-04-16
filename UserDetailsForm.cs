@@ -67,7 +67,7 @@ namespace SystemObslugiPrzychodni
             comboBoxSex.SelectedItem = user.Sex;
         }
 
-        private void EditUserDetailsButton_Click(object sender, EventArgs e)
+        private void EditUserDetailsButton_Click_1(object sender, EventArgs e)
         {
             labelNoweDane.Visible = true;
             textBoxLogin.Visible = true;
@@ -110,14 +110,37 @@ namespace SystemObslugiPrzychodni
                 string.IsNullOrWhiteSpace(textBoxPhone.Text) ||
                 comboBoxSex.SelectedItem == null)
             {
-                MessageBox.Show("Wszystkie pola muszą być wypełnione.");
+                MessageBox.Show("Wypełnij wszystkie wymagane pola.");
                 return;
             }
 
-            //unikalność loginu
-            if (UserManagement.IsValueUnique(textBoxLogin.Text, "login"))
+            //walidacja "tylko litery" dla imienia i nazwiska
+            if (textBoxName.Text != editedUser.Name)
             {
-                MessageBox.Show("Login już istnieje w systemie.");
+                if (textBoxName.Text.All(char.IsLetter))
+                {
+                    MessageBox.Show("Imię i nazwisko mogą zawierać wyłącznie litery alfabetu (bez cyfr i znaków specjalnych).");
+                    return;
+                }
+            }
+
+            if (textBoxSurname.Text != editedUser.Surname)
+            {
+                if (textBoxSurname.Text.All(char.IsLetter))
+                {
+                    MessageBox.Show("Imię i nazwisko mogą zawierać wyłącznie litery alfabetu (bez cyfr i znaków specjalnych).");
+                    return;
+                }
+            }
+
+            //unikalność loginu
+            if (editedUser.Login != textBoxLogin.Text)
+            {
+                if (!UserManagement.IsValueUnique(textBoxLogin.Text, "login"))
+                {
+                    MessageBox.Show("Podany login jest już zajęty. Wprowadź inny login.");
+                    return;
+                }
             }
 
             //walidacja 9 cyfr w numerze telefonu
@@ -130,41 +153,42 @@ namespace SystemObslugiPrzychodni
             //walidacja 11 cyfr w numerze PESEL
             if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxPESEL.Text, @"^\d{11}$"))
             {
-                MessageBox.Show("Numer PESEL musi zawierać 11 cyfr.");
+                MessageBox.Show("Nieprawidłowy numer PESEL.");
                 return;
             }
 
             //unikalność PESEL
-            if (UserManagement.IsValueUnique(textBoxPESEL.Text, "pesel"))
+            if (editedUser.Pesel != textBoxPESEL.Text)
             {
-                MessageBox.Show("Numer PESEL już istnieje w systemie.");
+                if (!UserManagement.IsValueUnique(textBoxPESEL.Text, "pesel"))
+                {
+                    MessageBox.Show("Użytkownik o podanym numerze PESEL już istnieje w systemie.");
+                    return;
+                }
             }
 
             //walidacja formatu kodu pocztowego
             if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxPostCode.Text, @"^\d{2}-\d{3}$"))
             {
-                MessageBox.Show("Kod pocztowy musi być w formacie 00-000.");
+                MessageBox.Show("Kod pocztowy ma nieprawidłowy format.");
                 return;
             }
 
             //walidacja formatu adresu email
-            if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$") || textBoxEmail.Text.Length > 255)
             {
-                MessageBox.Show("Niepoprawny format adresu email.");
+                MessageBox.Show("Adres e‑mail ma nieprawidłowy format.");
                 return;
             }
 
             //unikalność adresu email
-            if (UserManagement.IsValueUnique(textBoxEmail.Text, "email"))
+            if (editedUser.Email != textBoxEmail.Text)
             {
-                MessageBox.Show("Adres email już istnieje w systemie.");
-            }
-
-            //walidacja długości adresu email
-            if (textBoxEmail.Text.Length > 255)
-            {
-                MessageBox.Show("Niepoprawny format adresu email.");
-                return;
+                if (!UserManagement.IsValueUnique(textBoxEmail.Text, "email"))
+                {
+                    MessageBox.Show("Podany adres e‑mail jest już przypisany do innego użytkownika.");
+                    return;
+                }
             }
 
             //walidacja daty urodzenia (nie może być dalsza niż dzisiejsza data)

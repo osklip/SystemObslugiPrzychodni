@@ -35,20 +35,22 @@
             // dataGridViewForgottenUsers
             // 
             dataGridViewForgottenUsers.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridViewForgottenUsers.Location = new Point(12, 12);
+            dataGridViewForgottenUsers.Location = new Point(10, 9);
+            dataGridViewForgottenUsers.Margin = new Padding(3, 2, 3, 2);
             dataGridViewForgottenUsers.Name = "dataGridViewForgottenUsers";
             dataGridViewForgottenUsers.RowHeadersWidth = 51;
-            dataGridViewForgottenUsers.Size = new Size(761, 319);
+            dataGridViewForgottenUsers.Size = new Size(666, 239);
             dataGridViewForgottenUsers.TabIndex = 0;
             // 
             // ForgottenUsersForm
             // 
-            AutoScaleDimensions = new SizeF(8F, 20F);
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(700, 338);
             Controls.Add(dataGridViewForgottenUsers);
+            Margin = new Padding(3, 2, 3, 2);
             Name = "ForgottenUsersForm";
-            Text = "ForgottenUsersForm";
+            Text = "Lista zapomnianych użytkowników";
             ((System.ComponentModel.ISupportInitialize)dataGridViewForgottenUsers).EndInit();
             ResumeLayout(false);
         }

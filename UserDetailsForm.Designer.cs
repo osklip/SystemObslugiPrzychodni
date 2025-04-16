@@ -55,7 +55,6 @@
             label28 = new Label();
             label29 = new Label();
             label30 = new Label();
-            EditUserDetailsButton = new Button();
             dateTimePickerDateOfBirth = new DateTimePicker();
             textBoxLogin = new TextBox();
             textBoxName = new TextBox();
@@ -76,6 +75,7 @@
             labelPassword = new Label();
             textBoxPassword = new TextBox();
             comboBoxSex = new ComboBox();
+            EditUserDetailsButton = new Button();
             SuspendLayout();
             // 
             // labelDane
@@ -321,16 +321,6 @@
             label30.TabIndex = 29;
             label30.Text = "Login:";
             // 
-            // EditUserDetailsButton
-            // 
-            EditUserDetailsButton.Location = new Point(13, 648);
-            EditUserDetailsButton.Name = "EditUserDetailsButton";
-            EditUserDetailsButton.Size = new Size(103, 23);
-            EditUserDetailsButton.TabIndex = 30;
-            EditUserDetailsButton.Text = "Edytuj dane";
-            EditUserDetailsButton.UseVisualStyleBackColor = true;
-            EditUserDetailsButton.Click += EditUserDetailsButton_Click;
-            // 
             // dateTimePickerDateOfBirth
             // 
             dateTimePickerDateOfBirth.Location = new Point(308, 182);
@@ -486,11 +476,22 @@
             comboBoxSex.Size = new Size(200, 23);
             comboBoxSex.TabIndex = 51;
             // 
+            // EditUserDetailsButton
+            // 
+            EditUserDetailsButton.Location = new Point(12, 703);
+            EditUserDetailsButton.Name = "EditUserDetailsButton";
+            EditUserDetailsButton.Size = new Size(106, 23);
+            EditUserDetailsButton.TabIndex = 52;
+            EditUserDetailsButton.Text = "Edytuj dane";
+            EditUserDetailsButton.UseVisualStyleBackColor = true;
+            EditUserDetailsButton.Click += EditUserDetailsButton_Click_1;
+            // 
             // UserDetailsForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(540, 738);
+            Controls.Add(EditUserDetailsButton);
             Controls.Add(comboBoxSex);
             Controls.Add(textBoxPassword);
             Controls.Add(labelPassword);
@@ -511,7 +512,6 @@
             Controls.Add(textBoxName);
             Controls.Add(textBoxLogin);
             Controls.Add(dateTimePickerDateOfBirth);
-            Controls.Add(EditUserDetailsButton);
             Controls.Add(label30);
             Controls.Add(label29);
             Controls.Add(label28);
@@ -575,7 +575,6 @@
         private Label label28;
         private Label label29;
         private Label label30;
-        private Button EditUserDetailsButton;
         private DateTimePicker dateTimePickerDateOfBirth;
         private TextBox textBoxLogin;
         private TextBox textBoxName;
@@ -596,5 +595,6 @@
         private Label labelPassword;
         private TextBox textBoxPassword;
         private ComboBox comboBoxSex;
+        private Button EditUserDetailsButton;
     }
 }

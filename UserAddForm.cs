@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Linq;
@@ -37,14 +38,21 @@ namespace SystemObslugiPrzychodni
                 string.IsNullOrWhiteSpace(textBoxPhone.Text) ||
                 comboBoxSex.SelectedItem == null)
             {
-                MessageBox.Show("Wszystkie pola muszą być wypełnione.");
+                MessageBox.Show("Wypełnij wszystkie wymagane pola.");
                 return;
+            }
+
+            //walidacja "tylko litery" dla imienia i nazwiska
+            if (textBoxName.Text.All(char.IsLetter) || textBoxSurname.Text.All(char.IsLetter))
+            {
+                MessageBox.Show("Imię i nazwisko mogą zawierać wyłącznie litery alfabetu (bez cyfr i znaków specjalnych).");
             }
 
             //unikalność loginu
             if (!UserManagement.IsValueUnique(textBoxLogin.Text, "login"))
             {
-                MessageBox.Show("Login już istnieje w systemie.");
+                MessageBox.Show("Podany login jest już zajęty. Wprowadź inny login.");
+                return;
             }
 
             //walidacja 9 cyfr w numerze telefonu
@@ -57,40 +65,35 @@ namespace SystemObslugiPrzychodni
             //walidacja 11 cyfr w numerze PESEL
             if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxPESEL.Text, @"^\d{11}$"))
             {
-                MessageBox.Show("Numer PESEL musi zawierać 11 cyfr.");
+                MessageBox.Show("Nieprawidłowy numer PESEL.");
                 return;
             }
 
             //unikalność PESEL
             if (!UserManagement.IsValueUnique(textBoxPESEL.Text, "pesel"))
             {
-                MessageBox.Show("Numer PESEL już istnieje w systemie.");
+                MessageBox.Show("Użytkownik o podanym numerze PESEL już istnieje w systemie.");
+                return;
             }
 
             //walidacja formatu kodu pocztowego
             if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxPostCode.Text, @"^\d{2}-\d{3}$"))
             {
-                MessageBox.Show("Kod pocztowy musi być w formacie 00-000.");
+                MessageBox.Show("Kod pocztowy ma nieprawidłowy format.");
                 return;
             }
 
             //walidacja formatu adresu email
-            if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$"))
+            if (!System.Text.RegularExpressions.Regex.IsMatch(textBoxEmail.Text, @"^[^@\s]+@[^@\s]+\.[^@\s]+$") || textBoxEmail.Text.Length > 255)
             {
-                MessageBox.Show("Niepoprawny format adresu email.");
+                MessageBox.Show("Adres e‑mail ma nieprawidłowy format.");
                 return;
             }
 
             //unikalność adresu email
             if (!UserManagement.IsValueUnique(textBoxEmail.Text, "email"))
             {
-                MessageBox.Show("Adres email już istnieje w systemie.");
-            }
-
-            //walidacja długości adresu email
-            if (textBoxEmail.Text.Length > 255)
-            {
-                MessageBox.Show("Niepoprawny format adresu email.");
+                MessageBox.Show("Podany adres e‑mail jest już przypisany do innego użytkownika.");
                 return;
             }
 
@@ -124,7 +127,7 @@ namespace SystemObslugiPrzychodni
                 );
 
                 UserManagement.AddUser(newUser);
-                MessageBox.Show($"Użytkownik dodany pomyślnie.");
+                MessageBox.Show($"Użytkownik został pomyślnie dodany do systemu.");
                 AdminMenuForm form1 = new AdminMenuForm();
                 form1.Show();
                 this.Close();

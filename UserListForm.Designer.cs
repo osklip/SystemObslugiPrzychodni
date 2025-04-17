@@ -167,7 +167,7 @@ namespace SystemObslugiPrzychodni
             // 
             // BtnForgetUser
             // 
-            BtnForgetUser.Location = new Point(160, 427);
+            BtnForgetUser.Location = new Point(150, 427);
             BtnForgetUser.Margin = new Padding(3, 2, 3, 2);
             BtnForgetUser.Name = "BtnForgetUser";
             BtnForgetUser.Size = new Size(157, 23);

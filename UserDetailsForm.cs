@@ -228,7 +228,7 @@ namespace SystemObslugiPrzychodni
                 {
                     MessageBox.Show($"Błąd podczas edytowania użytkownika: {ex.Message}");
                 }
-            } 
+            }
             else
             {
                 MessageBox.Show("Dane nie zostały zmienione.");
@@ -240,5 +240,35 @@ namespace SystemObslugiPrzychodni
         {
 
         }
+
+        private void ForgetUserButton_Click(object sender, EventArgs e)
+        {
+
+
+            if (editedUser != null)
+            {
+                var result = MessageBox.Show(
+                    $"Czy na pewno chcesz zapomnieć użytkownika {editedUser.Name} {editedUser.Surname}?",
+                    "Potwierdzenie", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (result == DialogResult.Yes)
+                {
+                    UserManagement.ForgetUser(editedUser, 1); //po dodaniu logowania zmienic 1 na zmienna ktora odpowiada za id zalogowanego uzytkownika
+                    MessageBox.Show("Użytkownik został zapomniany.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    UserListForm userListForm = new UserListForm();
+                    userListForm.RefreshUserList();
+                    userListForm.Show();
+                    this.Close();
+                }
+            }
+            else
+            {
+                MessageBox.Show("Nie udało się pobrać danych użytkownika.");
+            }
+
+
+        }
+
+
     }
 }

@@ -41,7 +41,6 @@ namespace SystemObslugiPrzychodni
             textBoxPESEL = new TextBox();
             ResetViewButton = new Button();
             OpenUserDetailsForm = new Button();
-            BtnForgetUser = new Button();
             textBoxName = new TextBox();
             label5 = new Label();
             OpenUserDetailsForm2 = new Button();
@@ -165,17 +164,6 @@ namespace SystemObslugiPrzychodni
             OpenUserDetailsForm.Text = "Szczegóły użytkownika";
             OpenUserDetailsForm.UseVisualStyleBackColor = true;
             // 
-            // BtnForgetUser
-            // 
-            BtnForgetUser.Location = new Point(150, 427);
-            BtnForgetUser.Margin = new Padding(3, 2, 3, 2);
-            BtnForgetUser.Name = "BtnForgetUser";
-            BtnForgetUser.Size = new Size(157, 23);
-            BtnForgetUser.TabIndex = 12;
-            BtnForgetUser.Text = "Zapomij użytkownika";
-            BtnForgetUser.UseVisualStyleBackColor = true;
-            BtnForgetUser.Click += BtnForgetUser_Click;
-            // 
             // textBoxName
             // 
             textBoxName.Location = new Point(160, 51);
@@ -212,7 +200,6 @@ namespace SystemObslugiPrzychodni
             Controls.Add(OpenUserDetailsForm2);
             Controls.Add(label5);
             Controls.Add(textBoxName);
-            Controls.Add(BtnForgetUser);
             Controls.Add(OpenUserDetailsForm);
             Controls.Add(ResetViewButton);
             Controls.Add(textBoxPESEL);
@@ -247,7 +234,6 @@ namespace SystemObslugiPrzychodni
         private TextBox textBoxPESEL;
         private Button ResetViewButton;
         private Button OpenUserDetailsForm;
-        private Button BtnForgetUser;
         private TextBox textBoxName;
         private Label label5;
         private Button OpenUserDetailsForm2;

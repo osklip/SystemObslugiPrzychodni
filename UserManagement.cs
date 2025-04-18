@@ -19,7 +19,9 @@ namespace SystemObslugiPrzychodni
     public class UserManagement
     {
         public static List<User> users = new List<User>();
-        public static string dbpath = "C:\\Users\\lipsk\\Source\\Repos\\SystemObslugiPrzychodni\\database.db";
+        public static string dbpath = "C:\\Users\\cmoli\\Desktop\\SystemObslugiPrzychodni-master1\\database.db";
+
+ 
 
         private static int lastUserId = 0;
 
@@ -53,14 +55,18 @@ namespace SystemObslugiPrzychodni
                                 int id = reader.GetInt32(0);
                                 string name = reader.GetString(1);
                                 string surname = reader.GetString(2);
+                                string revokedate = reader.GetString(17);
+                                int revokerid = reader.GetInt32(18);
+
+                        
 
                                 forgotten.Add(new ForgottenUserInfo
                                 {
                                     UserId = id,
                                     ForgottenName = $"{name}",
                                     ForgottenSurname = $"{surname}",
-                                    ForgottenDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), 
-                                    AdminId = 1
+                                    ForgottenDate = $"{revokedate}", 
+                                    AdminId = revokerid
                                 }); ;
                             }
                 }
@@ -110,7 +116,8 @@ namespace SystemObslugiPrzychodni
                 email = $email,
                 phone = $phone,
                 role_id = $role_id,
-                is_active = $is_active
+                is_active = $is_active,
+                revoker_id = $adminId
             WHERE user_id = $user_id;
         ";
 
@@ -131,6 +138,7 @@ namespace SystemObslugiPrzychodni
                 command.Parameters.AddWithValue("$phone", user.Phone);
                 command.Parameters.AddWithValue("$role_id", user.Role_id);
                 command.Parameters.AddWithValue("$is_active", user.Is_active ? 1 : 0);
+                command.Parameters.AddWithValue("$adminId", adminId);
 
                 command.ExecuteNonQuery();
             }

@@ -31,7 +31,6 @@ namespace SystemObslugiPrzychodni
                 string.IsNullOrWhiteSpace(textBoxSurname.Text) ||
                 string.IsNullOrWhiteSpace(textBoxCity.Text) ||
                 string.IsNullOrWhiteSpace(textBoxPostCode.Text) ||
-                string.IsNullOrWhiteSpace(textBoxStreet.Text) ||
                 string.IsNullOrWhiteSpace(textBoxStreetNumber.Text) ||
                 string.IsNullOrWhiteSpace(textBoxPESEL.Text) ||
                 string.IsNullOrWhiteSpace(textBoxEmail.Text) ||

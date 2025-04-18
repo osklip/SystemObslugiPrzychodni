@@ -35,7 +35,7 @@ namespace SystemObslugiPrzychodni
         { get; set; }
 
      //   private string street;
-        public string Street
+        public string? Street
         { get; set; }
 
       //  private string street_number;
@@ -74,7 +74,7 @@ namespace SystemObslugiPrzychodni
         public bool Is_active
         { get; set; }
 
-        public User(int user_id, string login, string password, string name, string surname, string city, string post_code, string street, string street_number, string? apartment_number, 
+        public User(int user_id, string login, string password, string name, string surname, string city, string post_code, string? street, string street_number, string? apartment_number, 
                     string pesel, string date_of_birth, string sex, string email, string phone, int role_id, bool is_active)
         {
             User_id = user_id;

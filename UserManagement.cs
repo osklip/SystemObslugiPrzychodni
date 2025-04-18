@@ -19,7 +19,7 @@ namespace SystemObslugiPrzychodni
     public class UserManagement
     {
         public static List<User> users = new List<User>();
-        public static string dbpath = "C:\\Users\\lipsk\\Source\\Repos\\SystemObslugiPrzychodni-main\\database.db";
+        public static string dbpath = "C:\\Users\\lipsk\\Source\\Repos\\SystemObslugiPrzychodni\\database.db";
 
         private static int lastUserId = 0;
 

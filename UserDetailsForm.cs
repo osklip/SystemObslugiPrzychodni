@@ -269,6 +269,12 @@ namespace SystemObslugiPrzychodni
 
         }
 
+        private void button4_Click(object sender, EventArgs e)
+        {
+            UserPerms userPerms = new UserPerms(editedUser);
+            userPerms.Show();
+        }
+
 
     }
 }

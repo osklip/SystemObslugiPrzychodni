@@ -34,6 +34,72 @@ namespace SystemObslugiPrzychodni
             public int AdminId { get; set; }
         }
 
+        public static List<(User user, int[] permissions)> GetUsersWithPermissions()
+        {
+            return users.Select(user => (user, GetUserPerms(user.User_id))).ToList();
+        }
+        public static int[] GetUserPerms(int? userId)
+        {
+            int[] perms = new int[7];
+            using (var connection = new SqliteConnection("Data Source=" + dbpath))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = @"
+            SELECT *
+            FROM tbl_user_perms
+            WHERE user_id = $user_id;
+";
+                command.Parameters.AddWithValue("$user_id", userId);
+
+                using (var reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        perms[0] = reader.GetInt32(1); //dodawanie
+                        perms[1] = reader.GetInt32(2); //edycja
+                        perms[2] = reader.GetInt32(3); //wyswietlanie
+                        perms[3] = reader.GetInt32(4); //zapominanie
+                        perms[4] = reader.GetInt32(5); //listowanie zapomnianych
+                        perms[5] = reader.GetInt32(6); //dodawanie uprawnien
+                        perms[6] = reader.GetInt32(7); //obsluga pacjentow
+                    }
+                }
+            }
+            return perms;
+
+
+
+        }
+        public static void UpdateUserPerms(int? userId, int[] userPermissions)
+        {
+            using (var connection = new SqliteConnection("Data Source=" + dbpath))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = @"
+            UPDATE tbl_user_perms
+            SET add_user = $add_user,
+                edit_user = $edit_user,
+                list_users = $list_users,
+                forget_user = $forget_user,
+                list_forget = $list_forget,
+                grant_perms = $grant_perms,
+                patients_service = $patients_service
+            WHERE user_id = $user_id;
+        ";
+                command.Parameters.AddWithValue("$user_id", userId);
+                command.Parameters.AddWithValue("$add_user", userPermissions[0]);
+                command.Parameters.AddWithValue("$edit_user", userPermissions[1]);
+                command.Parameters.AddWithValue("$list_users", userPermissions[2]);
+                command.Parameters.AddWithValue("$forget_user", userPermissions[3]);
+                command.Parameters.AddWithValue("$list_forget", userPermissions[4]);
+                command.Parameters.AddWithValue("$grant_perms", userPermissions[5]);
+                command.Parameters.AddWithValue("$patients_service", userPermissions[6]);
+
+                command.ExecuteNonQuery();
+            }
+        }
         public static List<ForgottenUserInfo> GetForgottenUsers()
         {
             List<ForgottenUserInfo> forgotten = new List<ForgottenUserInfo>();

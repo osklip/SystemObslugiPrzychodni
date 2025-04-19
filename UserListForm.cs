@@ -16,6 +16,13 @@ namespace SystemObslugiPrzychodni
         {
             InitializeComponent();
             RefreshUserList();
+            comboBoxPerms.Items.Add("dodawanie");
+            comboBoxPerms.Items.Add("edytowanie");
+            comboBoxPerms.Items.Add("wyswietlanie");
+            comboBoxPerms.Items.Add("zapominanie");
+            comboBoxPerms.Items.Add("wyświetlanie zapomnianych");
+            comboBoxPerms.Items.Add("nadawanie uprawnień");
+            comboBoxPerms.Items.Add("obsługa pacjentów");
         }
 
         public void RefreshUserList()
@@ -61,13 +68,18 @@ namespace SystemObslugiPrzychodni
             string filterSurname = textBoxSurname.Text.Trim();
             string filterPesel = textBoxPESEL.Text.Trim();
             string filterName = textBoxName.Text.Trim();
+            int selectedPermissionIndex = comboBoxPerms.SelectedIndex; // Pobranie wybranego uprawnienia
 
-            var filteredUsers = UserManagement.users.Where(u =>
-                 (string.IsNullOrEmpty(filterLogin) || u.Login.Contains(filterLogin, StringComparison.OrdinalIgnoreCase)) &&
-                 (string.IsNullOrEmpty(filterSurname) || u.Surname.Contains(filterSurname, StringComparison.OrdinalIgnoreCase)) &&
-                 (string.IsNullOrEmpty(filterName) || u.Name.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
-                 (string.IsNullOrEmpty(filterPesel) || u.Pesel.Contains(filterPesel))
-            ).ToList();
+            // Pobranie użytkowników z ich uprawnieniami
+            var usersWithPermissions = UserManagement.GetUsersWithPermissions();
+
+            var filteredUsers = usersWithPermissions.Where(up =>
+               (string.IsNullOrEmpty(filterLogin) || up.user.Login.Contains(filterLogin, StringComparison.OrdinalIgnoreCase)) &&
+               (string.IsNullOrEmpty(filterSurname) || up.user.Surname.Contains(filterSurname, StringComparison.OrdinalIgnoreCase)) &&
+               (string.IsNullOrEmpty(filterName) || up.user.Name.Contains(filterName, StringComparison.OrdinalIgnoreCase)) &&
+               (string.IsNullOrEmpty(filterPesel) || up.user.Pesel.Contains(filterPesel)) &&
+               (selectedPermissionIndex == -1 || up.permissions[selectedPermissionIndex] == 1) // Filtrowanie po uprawnieniach
+            ).Select(up => up.user).ToList();
 
             if (filteredUsers.Count > 0)
             {
@@ -94,9 +106,10 @@ namespace SystemObslugiPrzychodni
             textBoxName.Text = string.Empty;
             textBoxSurname.Text = string.Empty;
             textBoxPESEL.Text = string.Empty;
+            comboBoxPerms.Text = string.Empty;
         }
 
-        
+
         private void OpenUserDetailsForm2_Click_1(object sender, EventArgs e)
         {
             if (dataGridViewUserList.SelectedRows.Count > 0)
@@ -125,5 +138,11 @@ namespace SystemObslugiPrzychodni
 
         }
 
+        private void UserListForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        
     }
 }

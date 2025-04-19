@@ -17,5 +17,8 @@
     <Compile Update="UserListForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="UserPerms.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>

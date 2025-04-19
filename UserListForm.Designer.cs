@@ -44,6 +44,8 @@ namespace SystemObslugiPrzychodni
             textBoxName = new TextBox();
             label5 = new Label();
             OpenUserDetailsForm2 = new Button();
+            comboBoxPerms = new ComboBox();
+            label6 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridViewUserList).BeginInit();
             SuspendLayout();
             // 
@@ -58,12 +60,12 @@ namespace SystemObslugiPrzychodni
             dataGridViewUserList.Name = "dataGridViewUserList";
             dataGridViewUserList.ReadOnly = true;
             dataGridViewUserList.RowHeadersWidth = 51;
-            dataGridViewUserList.Size = new Size(702, 319);
+            dataGridViewUserList.Size = new Size(771, 319);
             dataGridViewUserList.TabIndex = 0;
             // 
             // OpenAdminMenuFormButton
             // 
-            OpenAdminMenuFormButton.Location = new Point(646, 424);
+            OpenAdminMenuFormButton.Location = new Point(715, 424);
             OpenAdminMenuFormButton.Margin = new Padding(3, 2, 3, 2);
             OpenAdminMenuFormButton.Name = "OpenAdminMenuFormButton";
             OpenAdminMenuFormButton.Size = new Size(66, 26);
@@ -91,7 +93,7 @@ namespace SystemObslugiPrzychodni
             // 
             // SearchUserButton
             // 
-            SearchUserButton.Location = new Point(646, 49);
+            SearchUserButton.Location = new Point(715, 49);
             SearchUserButton.Margin = new Padding(3, 2, 3, 2);
             SearchUserButton.Name = "SearchUserButton";
             SearchUserButton.Size = new Size(66, 24);
@@ -112,7 +114,7 @@ namespace SystemObslugiPrzychodni
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(291, 30);
+            label3.Location = new Point(274, 30);
             label3.Name = "label3";
             label3.Size = new Size(60, 15);
             label3.TabIndex = 6;
@@ -121,7 +123,7 @@ namespace SystemObslugiPrzychodni
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(444, 30);
+            label4.Location = new Point(414, 30);
             label4.Name = "label4";
             label4.Size = new Size(41, 15);
             label4.TabIndex = 7;
@@ -129,7 +131,7 @@ namespace SystemObslugiPrzychodni
             // 
             // textBoxSurname
             // 
-            textBoxSurname.Location = new Point(291, 51);
+            textBoxSurname.Location = new Point(274, 51);
             textBoxSurname.Margin = new Padding(3, 2, 3, 2);
             textBoxSurname.Name = "textBoxSurname";
             textBoxSurname.Size = new Size(134, 23);
@@ -137,7 +139,7 @@ namespace SystemObslugiPrzychodni
             // 
             // textBoxPESEL
             // 
-            textBoxPESEL.Location = new Point(444, 51);
+            textBoxPESEL.Location = new Point(414, 51);
             textBoxPESEL.Margin = new Padding(3, 2, 3, 2);
             textBoxPESEL.Name = "textBoxPESEL";
             textBoxPESEL.Size = new Size(134, 23);
@@ -145,7 +147,7 @@ namespace SystemObslugiPrzychodni
             // 
             // ResetViewButton
             // 
-            ResetViewButton.Location = new Point(646, 11);
+            ResetViewButton.Location = new Point(715, 11);
             ResetViewButton.Margin = new Padding(3, 2, 3, 2);
             ResetViewButton.Name = "ResetViewButton";
             ResetViewButton.Size = new Size(66, 24);
@@ -166,7 +168,7 @@ namespace SystemObslugiPrzychodni
             // 
             // textBoxName
             // 
-            textBoxName.Location = new Point(160, 51);
+            textBoxName.Location = new Point(150, 51);
             textBoxName.Margin = new Padding(3, 2, 3, 2);
             textBoxName.Name = "textBoxName";
             textBoxName.Size = new Size(118, 23);
@@ -175,7 +177,7 @@ namespace SystemObslugiPrzychodni
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(160, 30);
+            label5.Location = new Point(150, 30);
             label5.Name = "label5";
             label5.Size = new Size(33, 15);
             label5.TabIndex = 14;
@@ -183,7 +185,7 @@ namespace SystemObslugiPrzychodni
             // 
             // OpenUserDetailsForm2
             // 
-            OpenUserDetailsForm2.Location = new Point(12, 427);
+            OpenUserDetailsForm2.Location = new Point(10, 426);
             OpenUserDetailsForm2.Margin = new Padding(3, 2, 3, 2);
             OpenUserDetailsForm2.Name = "OpenUserDetailsForm2";
             OpenUserDetailsForm2.Size = new Size(121, 23);
@@ -192,11 +194,30 @@ namespace SystemObslugiPrzychodni
             OpenUserDetailsForm2.UseVisualStyleBackColor = true;
             OpenUserDetailsForm2.Click += OpenUserDetailsForm2_Click_1;
             // 
+            // comboBoxPerms
+            // 
+            comboBoxPerms.FormattingEnabled = true;
+            comboBoxPerms.Location = new Point(554, 51);
+            comboBoxPerms.Name = "comboBoxPerms";
+            comboBoxPerms.Size = new Size(134, 23);
+            comboBoxPerms.TabIndex = 16;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(554, 30);
+            label6.Name = "label6";
+            label6.Size = new Size(76, 15);
+            label6.TabIndex = 17;
+            label6.Text = "Uprawnienia:";
+            // 
             // UserListForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(724, 461);
+            ClientSize = new Size(791, 461);
+            Controls.Add(label6);
+            Controls.Add(comboBoxPerms);
             Controls.Add(OpenUserDetailsForm2);
             Controls.Add(label5);
             Controls.Add(textBoxName);
@@ -215,6 +236,7 @@ namespace SystemObslugiPrzychodni
             Margin = new Padding(3, 2, 3, 2);
             Name = "UserListForm";
             Text = "Lista użytkowników";
+            Load += UserListForm_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridViewUserList).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -237,5 +259,7 @@ namespace SystemObslugiPrzychodni
         private TextBox textBoxName;
         private Label label5;
         private Button OpenUserDetailsForm2;
+        private ComboBox comboBoxPerms;
+        private Label label6;
     }
 }

@@ -504,8 +504,9 @@
             button4.Name = "button4";
             button4.Size = new Size(120, 23);
             button4.TabIndex = 56;
-            button4.Text = "Nadaj uprawnienia";
+            button4.Text = "Uprawnienia";
             button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
             // 
             // UserDetailsForm
             // 

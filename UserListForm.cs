@@ -16,13 +16,13 @@ namespace SystemObslugiPrzychodni
         {
             InitializeComponent();
             RefreshUserList();
-            comboBoxPerms.Items.Add("dodawanie");
-            comboBoxPerms.Items.Add("edytowanie");
-            comboBoxPerms.Items.Add("wyswietlanie");
-            comboBoxPerms.Items.Add("zapominanie");
-            comboBoxPerms.Items.Add("wyświetlanie zapomnianych");
-            comboBoxPerms.Items.Add("nadawanie uprawnień");
-            comboBoxPerms.Items.Add("obsługa pacjentów");
+            comboBoxPerms.Items.Add("Dodawanie użytkowników");
+            comboBoxPerms.Items.Add("Edytowanie użytkowników");
+            comboBoxPerms.Items.Add("Wyswietlanie użytkowników");
+            comboBoxPerms.Items.Add("Zapominanie użytkowników");
+            comboBoxPerms.Items.Add("Wyświetlanie użytkowników zapomnianych");
+            comboBoxPerms.Items.Add("Nadawanie uprawnień");
+            comboBoxPerms.Items.Add("Obsługa pacjentów");
         }
 
         public void RefreshUserList()

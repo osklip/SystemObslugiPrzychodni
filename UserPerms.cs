@@ -39,7 +39,7 @@ namespace SystemObslugiPrzychodni
             for (int i = 1; i < 8; i++) //ustawienie checkboxow zgodnie z uprawnieniami jakie aktualnie ma  
             {
                 string checkBoxName = "checkBox" + i;
-                
+
                 var checkBox = Controls.Find(checkBoxName, true).FirstOrDefault() as CheckBox;
                 if (checkBox != null)
                 {
@@ -49,7 +49,7 @@ namespace SystemObslugiPrzychodni
             bool isAllZeros = userPermissions.All(value => value == 0);
             try
             {
-                
+
                 if (isAllZeros)
                 {
                     MessageBox.Show("Użytkownik nie ma przypisanego żadnego uprawnienia");
@@ -71,5 +71,7 @@ namespace SystemObslugiPrzychodni
         {
             this.Close();
         }
+
+
     }
 }

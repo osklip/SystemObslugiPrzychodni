@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.VisualBasic.ApplicationServices;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -275,6 +276,18 @@ namespace SystemObslugiPrzychodni
             userPerms.Show();
         }
 
-
+        private void button1_Click(object sender, EventArgs e)
+        {
+            using var dlg = new ChangePasswordForm(editedUser.Login);
+            if (dlg.ShowDialog() == DialogResult.OK)
+            {
+                MessageBox.Show(
+                    "Hasło zostało zmienione.",
+                    "Informacja",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+            }
+        }
     }
 }

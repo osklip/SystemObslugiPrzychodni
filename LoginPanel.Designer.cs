@@ -50,6 +50,7 @@
             txtPassword.PlaceholderText = "Hasło";
             txtPassword.Size = new Size(186, 27);
             txtPassword.TabIndex = 1;
+            txtPassword.UseSystemPasswordChar = true;
             // 
             // label1
             // 
@@ -90,7 +91,7 @@
             Controls.Add(txtPassword);
             Controls.Add(txtUsername);
             Name = "LoginPanel";
-            Text = "LoginPanel";
+            Text = "Logowanie";
             ResumeLayout(false);
             PerformLayout();
         }

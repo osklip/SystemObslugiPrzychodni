@@ -119,5 +119,11 @@ namespace SystemObslugiPrzychodni
                 MessageBoxIcon.Error
             );
         }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+            using var dlg = new ForgotPasswordForm();
+            dlg.ShowDialog();
+        }
     }
 }

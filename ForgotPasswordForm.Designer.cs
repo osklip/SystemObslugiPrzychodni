@@ -30,7 +30,7 @@
         {
             label1 = new Label();
             txtEmail = new TextBox();
-            txtID = new TextBox();
+            txtLogin = new TextBox();
             btnRecover = new Button();
             label2 = new Label();
             label3 = new Label();
@@ -53,13 +53,13 @@
             txtEmail.Size = new Size(233, 27);
             txtEmail.TabIndex = 4;
             // 
-            // txtID
+            // txtLogin
             // 
-            txtID.Location = new Point(86, 141);
-            txtID.Name = "txtID";
-            txtID.PlaceholderText = "ID";
-            txtID.Size = new Size(233, 27);
-            txtID.TabIndex = 5;
+            txtLogin.Location = new Point(86, 141);
+            txtLogin.Name = "txtLogin";
+            txtLogin.PlaceholderText = "Login";
+            txtLogin.Size = new Size(233, 27);
+            txtLogin.TabIndex = 5;
             // 
             // btnRecover
             // 
@@ -85,9 +85,9 @@
             label3.AutoSize = true;
             label3.Location = new Point(86, 118);
             label3.Name = "label3";
-            label3.Size = new Size(27, 20);
+            label3.Size = new Size(49, 20);
             label3.TabIndex = 34;
-            label3.Text = "ID:";
+            label3.Text = "Login:";
             // 
             // ForgotPasswordForm
             // 
@@ -97,7 +97,7 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(btnRecover);
-            Controls.Add(txtID);
+            Controls.Add(txtLogin);
             Controls.Add(txtEmail);
             Controls.Add(label1);
             Name = "ForgotPasswordForm";
@@ -110,7 +110,7 @@
 
         private Label label1;
         private TextBox txtEmail;
-        private TextBox txtID;
+        private TextBox txtLogin;
         private Button btnRecover;
         private Label label2;
         private Label label3;

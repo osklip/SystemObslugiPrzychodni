@@ -14,42 +14,40 @@ namespace SystemObslugiPrzychodni
 
         private void btnRecover_Click(object sender, EventArgs e)
         {
-            // 1. Pobierz dane z formularza
+            // 1. Pobierz dane z formularza: login i e-mail
+            string login = txtLogin.Text.Trim();
             string email = txtEmail.Text.Trim();
-            if (string.IsNullOrEmpty(email))
+
+            // 2. Walidacja pustych pól
+            if (string.IsNullOrEmpty(login) || string.IsNullOrEmpty(email))
             {
-                MessageBox.Show("Wypełnij pole E-mail.", "Błąd",
+                MessageBox.Show("Wypełnij pola login i e-mail.", "Błąd",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            if (!int.TryParse(txtID.Text.Trim(), out int userId))
-            {
-                MessageBox.Show("Podaj poprawny identyfikator użytkownika.", "Błąd",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            // 2. Generowanie nowego hasła
+            // 3. Generowanie nowego hasła
             string newPassword = GenerateRandomPassword(8);
             int rowsAffected;
 
-            // 3. Aktualizacja hasła w bazie
+            // 4. Aktualizacja hasła w bazie i oznaczenie, że jest tymczasowe
             using (var conn = new SqliteConnection($"Data Source={UserManagement.dbpath}"))
             {
                 conn.Open();
                 using var cmd = conn.CreateCommand();
                 cmd.CommandText = @"
                     UPDATE tbl_user
-                       SET password = $pwd
-                     WHERE user_id = $id
-                       AND email   = $email;";
+                       SET password = $pwd,
+                           is_temp  = '1'
+                     WHERE login = $login
+                       AND email = $email;";
                 cmd.Parameters.AddWithValue("$pwd", newPassword);
-                cmd.Parameters.AddWithValue("$id", userId);
+                cmd.Parameters.AddWithValue("$login", login);
                 cmd.Parameters.AddWithValue("$email", email);
                 rowsAffected = cmd.ExecuteNonQuery();
             }
 
+            // 5. Komunikat zwrotny
             if (rowsAffected == 1)
             {
                 MessageBox.Show(
@@ -63,7 +61,7 @@ namespace SystemObslugiPrzychodni
             else
             {
                 MessageBox.Show(
-                    "Nie znaleziono użytkownika o podanym ID i E-mailu.",
+                    "Nie znaleziono użytkownika o podanym loginie i e-mailu.",
                     "Błąd",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error);
@@ -72,7 +70,7 @@ namespace SystemObslugiPrzychodni
 
         private void btnExit_Click(object sender, EventArgs e)
         {
-            // Zamknij formularz bez zmian
+            // Zamknij formularz bez zmiany hasła
             this.Close();
         }
 
@@ -85,13 +83,15 @@ namespace SystemObslugiPrzychodni
             var all = upper + lower + digits + special;
             var rnd = new Random();
             var pwd = new char[length];
-            // gwarancja co najmniej jednej z każdej grupy
+
+            // Gwarancja co najmniej jednej z każdej grupy
             pwd[0] = upper[rnd.Next(upper.Length)];
             pwd[1] = special[rnd.Next(special.Length)];
             pwd[2] = digits[rnd.Next(digits.Length)];
             for (int i = 3; i < length; i++)
                 pwd[i] = all[rnd.Next(all.Length)];
-            // przetasuj
+
+            // Przetasuj tablicę
             return new string(pwd.OrderBy(x => rnd.Next()).ToArray());
         }
     }

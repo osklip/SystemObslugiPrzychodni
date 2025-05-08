@@ -1,17 +1,32 @@
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using System.Configuration;
+
 namespace SystemObslugiPrzychodni
 {
     internal static class Program
     {
-        /// <summary>
-        ///  The main entry point for the application.
-        /// </summary>
         [STAThread]
         static void Main()
         {
-            // To customize application configuration such as set high DPI settings or default font,
-            // see https://aka.ms/applicationconfiguration.
+            var config = new ConfigurationBuilder()
+               .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
+               .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+               .AddEnvironmentVariables()
+               .Build();
+
+            var services = new ServiceCollection();
+
+            services.AddSingleton<IPasswordMailer, PasswordMailer>();
+            services.AddSingleton<IConfiguration>(config);
+
+            services.AddTransient<ForgotPasswordForm>();
+            services.AddTransient<LoginPanel>();
+
+            var provider = services.BuildServiceProvider();
+
             ApplicationConfiguration.Initialize();
-            Application.Run(new LoginPanel());
+            Application.Run(provider.GetRequiredService<LoginPanel>());
         }
     }
 }

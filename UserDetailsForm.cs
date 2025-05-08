@@ -15,7 +15,8 @@ namespace SystemObslugiPrzychodni
     public partial class UserDetailsForm : Form
     {
         private User editedUser;
-        public UserDetailsForm(User user)
+        private readonly IServiceProvider _sp;
+        public UserDetailsForm(User user, IServiceProvider sp)
         {
             InitializeComponent();
             comboBoxSex.Items.Add("Kobieta");
@@ -66,6 +67,7 @@ namespace SystemObslugiPrzychodni
             textBoxPassword.Text = user.Password;
             textBoxPassword.Visible = false;
             comboBoxSex.SelectedItem = user.Sex;
+            _sp = sp;
         }
 
         private void EditUserDetailsButton_Click_1(object sender, EventArgs e)
@@ -90,7 +92,7 @@ namespace SystemObslugiPrzychodni
 
         private void OpenUserListFormButton_Click(object sender, EventArgs e)
         {
-            UserListForm userListForm = new UserListForm();
+            UserListForm userListForm = new UserListForm(_sp);
             userListForm.Show();
             this.Close();
         }
@@ -256,7 +258,7 @@ namespace SystemObslugiPrzychodni
                 {
                     UserManagement.ForgetUser(editedUser, 1); //po dodaniu logowania zmienic 1 na zmienna ktora odpowiada za id zalogowanego uzytkownika
                     MessageBox.Show("Użytkownik został zapomniany.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    UserListForm userListForm = new UserListForm();
+                    UserListForm userListForm = new UserListForm(_sp);
                     userListForm.RefreshUserList();
                     userListForm.Show();
                     this.Close();

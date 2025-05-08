@@ -51,7 +51,7 @@ namespace SystemObslugiPrzychodni
             // 3. Nie może być takie samo jak stare
             if (next == current)
             {
-                MessageBox.Show("Nowe hasło nie może być identyczne z poprzednim.", "Błąd",
+                MessageBox.Show("Hasło było użyte poprzednio, wprowadź inne.", "Błąd",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
@@ -62,7 +62,7 @@ namespace SystemObslugiPrzychodni
             if (!hasUpper || !hasSpecial)
             {
                 MessageBox.Show(
-                    "Hasło musi zawierać przynajmniej jedną wielką literę i co najmniej jeden znak specjalny.",
+                    "Niepoprawny format hasła, wprowadź inne.",
                     "Błąd",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error

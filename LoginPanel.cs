@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows.Forms;
 using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace SystemObslugiPrzychodni
 {
     public partial class LoginPanel : Form
     {
+        private readonly IServiceProvider _sp;
         // Maksymalna liczba nieudanych prób
         private const int MaxFailures = 3;
         // Czas blokady konta
@@ -18,12 +19,13 @@ namespace SystemObslugiPrzychodni
         private static readonly Dictionary<string, DateTime> _lockouts =
             new Dictionary<string, DateTime>(StringComparer.OrdinalIgnoreCase);
 
-        public LoginPanel()
+        public LoginPanel(IServiceProvider sp)
         {
             InitializeComponent();
+            _sp = sp;
         }
 
-        private void btnLogin_Click_1(object sender, EventArgs e)
+        private void btnLogin_Click(object sender, EventArgs e)
         {
             string login = txtUsername.Text.Trim();
             string password = txtPassword.Text;
@@ -48,22 +50,29 @@ namespace SystemObslugiPrzychodni
                 return;
             }
 
-            // 3. Pobierz hasło z bazy (tekstowe)
             using var conn = new SqliteConnection($"Data Source={UserManagement.dbpath}");
             conn.Open();
-            using var cmd = conn.CreateCommand();
-            cmd.CommandText = @"
-                SELECT password
-                  FROM tbl_user
-                 WHERE login = $login;
-            ";
-            cmd.Parameters.AddWithValue("$login", login);
 
-            var storedPwd = cmd.ExecuteScalar() as string;
-            if (storedPwd == null)
+            // 3. Pobierz dane użytkownika: ID, hasło i flagę is_temp
+            int userId;
+            string storedPwd;
+            string isTemp;
+            using (var cmd = conn.CreateCommand())
             {
-                ShowError("Niepoprawny login lub hasło.");
-                return;
+                cmd.CommandText = @"
+                    SELECT user_id, password, is_temp
+                      FROM tbl_user
+                     WHERE login = $login;";
+                cmd.Parameters.AddWithValue("$login", login);
+                using var rdr = cmd.ExecuteReader();
+                if (!rdr.Read())
+                {
+                    ShowError("Niepoprawny login.");
+                    return;
+                }
+                userId = rdr.GetInt32(0);
+                storedPwd = rdr.GetString(1);
+                isTemp = rdr.IsDBNull(2) ? "0" : rdr.GetString(2);
             }
 
             // 4. Porównanie plaintext
@@ -73,12 +82,26 @@ namespace SystemObslugiPrzychodni
                 return;
             }
 
-            // 5. Udane logowanie – reset licznika i blokady
+            // 5. Wymuszenie zmiany hasła jeśli tymczasowe
+            if (isTemp == "1")
+            {
+                this.Hide();
+                using var forceForm = new ForceChangePasswordForm(userId);
+                if (forceForm.ShowDialog() != DialogResult.OK)
+                {
+                    // Użytkownik anulował zmianę → restart aplikacji
+                    Application.Restart();
+                    return;
+                }
+                // Po zmianie hasła kontynuujemy
+            }
+
+            // 6. Udane logowanie – reset licznika i blokady
             _failCounts.Remove(login);
             _lockouts.Remove(login);
 
-            // 6. Otwórz panel Admina
-            new AdminMenuForm().Show();
+            // 7. Otwórz panel Admina
+            new AdminMenuForm(_sp).Show();
             this.Hide();
         }
 
@@ -120,10 +143,10 @@ namespace SystemObslugiPrzychodni
             );
         }
 
-        private void label3_Click(object sender, EventArgs e)
+        private void label4_Click(object sender, EventArgs e)
         {
-            using var dlg = new ForgotPasswordForm();
-            dlg.ShowDialog();
+            var frm = _sp.GetRequiredService<ForgotPasswordForm>();
+            frm.ShowDialog();
         }
     }
 }

@@ -4,21 +4,23 @@ namespace SystemObslugiPrzychodni
 {
     public partial class AdminMenuForm : Form
     {
-        public AdminMenuForm()
+        private readonly IServiceProvider _sp;
+        public AdminMenuForm(IServiceProvider sp)
         {
             InitializeComponent();
+            _sp = sp;
         }
 
         private void OpenAddUserFormButton_Click(object sender, EventArgs e)
         {
-            UserAddForm userAddForm = new UserAddForm();
+            UserAddForm userAddForm = new UserAddForm(_sp);
             userAddForm.Show();
             this.Hide();
         }
 
         private void OpenUserListFormButton_Click(object sender, EventArgs e)
         {
-            UserListForm userListForm = new UserListForm();
+            UserListForm userListForm = new UserListForm(_sp);
             userListForm.Show();
             this.Hide();
         }
@@ -39,7 +41,7 @@ namespace SystemObslugiPrzychodni
             );
             if (result == DialogResult.No) return;
 
-            new LoginPanel().Show();
+            new LoginPanel(_sp).Show();
             this.Close();
         }
     }

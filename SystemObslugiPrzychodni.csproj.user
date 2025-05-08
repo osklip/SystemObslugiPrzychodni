@@ -8,6 +8,9 @@
     <Compile Update="ChangePasswordForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="ForceChangePasswordForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="ForgotPasswordForm.cs">
       <SubType>Form</SubType>
     </Compile>

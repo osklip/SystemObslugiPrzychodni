@@ -12,7 +12,8 @@ namespace SystemObslugiPrzychodni
 {
     public partial class UserListForm : Form
     {
-        public UserListForm()
+        private readonly IServiceProvider _sp;
+        public UserListForm(IServiceProvider sp)
         {
             InitializeComponent();
             RefreshUserList();
@@ -23,6 +24,7 @@ namespace SystemObslugiPrzychodni
             comboBoxPerms.Items.Add("Wyświetlanie użytkowników zapomnianych");
             comboBoxPerms.Items.Add("Nadawanie uprawnień");
             comboBoxPerms.Items.Add("Obsługa pacjentów");
+            _sp = sp;
         }
 
         public void RefreshUserList()
@@ -57,7 +59,7 @@ namespace SystemObslugiPrzychodni
 
         private void OpenAdminMenuFormButton_Click(object sender, EventArgs e)
         {
-            AdminMenuForm form1 = new AdminMenuForm();
+            AdminMenuForm form1 = new AdminMenuForm(_sp);
             form1.Show();
             this.Close();
         }
@@ -120,7 +122,7 @@ namespace SystemObslugiPrzychodni
 
                 if (selectedUser != null)
                 {
-                    UserDetailsForm editForm = new UserDetailsForm(selectedUser);
+                    UserDetailsForm editForm = new UserDetailsForm(selectedUser, _sp);
                     editForm.Show();
                     this.Close();
                     //RefreshUserList();

@@ -68,6 +68,22 @@ namespace SystemObslugiPrzychodni
             textBoxPassword.Visible = false;
             comboBoxSex.SelectedItem = user.Sex;
             _sp = sp;
+
+
+            if (UserManagement.CurrentUserPermissions[1] == 0) // Jeśli brak uprawnienia do edycji
+            {
+                EditUserDetailsButton.Enabled = false; // Wyłącz przycisk
+            }
+
+            if (UserManagement.CurrentUserPermissions[3] == 0) // Jeśli brak uprawnienia do zapominania
+            {
+                ForgetUserButton.Enabled = false; // Wyłącz przycisk
+            }
+
+            if (UserManagement.CurrentUserPermissions[5] == 0) // Jeśli brak uprawnienia do nadawania uprawnien
+            {
+                button4.Enabled = false; // Wyłącz przycisk
+            }
         }
 
         private void EditUserDetailsButton_Click_1(object sender, EventArgs e)
@@ -250,6 +266,12 @@ namespace SystemObslugiPrzychodni
 
             if (editedUser != null)
             {
+                if (editedUser.Login == LoginPanel.Currentlogin)
+                {
+                    MessageBox.Show("Nie możesz zapomnieć samego siebie.", "Ostrzeżenie", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return; // Przerwij operację
+                }
+
                 var result = MessageBox.Show(
                     $"Czy na pewno chcesz zapomnieć użytkownika {editedUser.Name} {editedUser.Surname}?",
                     "Potwierdzenie", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);

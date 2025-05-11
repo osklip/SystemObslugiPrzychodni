@@ -88,6 +88,8 @@ namespace SystemObslugiPrzychodni
                 dataGridViewUserList.DataSource = null;
                 dataGridViewUserList.DataSource = filteredUsers;
                 HideData();
+                dataGridViewUserList.Columns["Name"].HeaderText = "Imię";
+                dataGridViewUserList.Columns["Surname"].HeaderText = "Nazwisko";
             }
             else
             {
@@ -142,7 +144,8 @@ namespace SystemObslugiPrzychodni
 
         private void UserListForm_Load(object sender, EventArgs e)
         {
-
+            dataGridViewUserList.Columns["Name"].HeaderText = "Imię";
+            dataGridViewUserList.Columns["Surname"].HeaderText = "Nazwisko";
         }
 
         

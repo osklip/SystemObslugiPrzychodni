@@ -9,6 +9,21 @@ namespace SystemObslugiPrzychodni
         {
             InitializeComponent();
             _sp = sp;
+
+            if (UserManagement.CurrentUserPermissions[0] == 0) // Jeœli brak uprawnienia do dodawania
+            {
+                OpenAddUserFormButton.Enabled = false; // Wy³¹cz przycisk
+            }
+
+            if (UserManagement.CurrentUserPermissions[2] == 0) // Jeœli brak uprawnienia do wyswietlania
+            {
+                OpenUserListFormButton.Enabled = false; // Wy³¹cz przycisk
+            }
+
+            if (UserManagement.CurrentUserPermissions[4] == 0) // Jeœli brak uprawnienia do wyswietlania zapomnianych
+            {
+                btnViewForgottenUsers.Enabled = false; // Wy³¹cz przycisk
+            }
         }
 
         private void OpenAddUserFormButton_Click(object sender, EventArgs e)

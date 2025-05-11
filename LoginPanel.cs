@@ -19,6 +19,7 @@ namespace SystemObslugiPrzychodni
         private static readonly Dictionary<string, DateTime> _lockouts =
             new Dictionary<string, DateTime>(StringComparer.OrdinalIgnoreCase);
 
+        public static string Currentlogin { get; set; } = string.Empty;
         public LoginPanel(IServiceProvider sp)
         {
             InitializeComponent();
@@ -100,6 +101,9 @@ namespace SystemObslugiPrzychodni
             _failCounts.Remove(login);
             _lockouts.Remove(login);
 
+            Currentlogin = login;
+
+            UserManagement.LoadCurrentUserPermissions(login);
             // 7. Otwórz panel Admina
             new AdminMenuForm(_sp).Show();
             this.Hide();

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Microsoft.Data.Sqlite;
@@ -8,11 +9,35 @@ namespace SystemObslugiPrzychodni
     public partial class ForceChangePasswordForm : Form
     {
         private readonly int _userId;
+        private static readonly char[] _specialChars = { '-', '_', '!', '*', '#', '$', '&' };
 
         public ForceChangePasswordForm(int userId)
         {
             InitializeComponent();
             _userId = userId;
+
+            // Na start przycisk wyłączony, reguły walidacyjne
+            btnSet.Enabled = false;
+            txtNew.TextChanged += TxtNew_TextChanged;
+        }
+
+        private void TxtNew_TextChanged(object sender, EventArgs e)
+        {
+            var pwd = txtNew.Text;
+
+            bool okLength = pwd.Length >= 8 && pwd.Length <= 15;
+            bool okUpper = pwd.Any(char.IsUpper);
+            bool okLower = pwd.Any(char.IsLower);
+            bool okDigit = pwd.Any(char.IsDigit);
+            bool okSpecial = pwd.Any(ch => _specialChars.Contains(ch));
+
+            lblRuleLength.ForeColor = okLength ? Color.Green : Color.DarkRed;
+            lblRuleUpper.ForeColor = okUpper ? Color.Green : Color.DarkRed;
+            lblRuleLower.ForeColor = okLower ? Color.Green : Color.DarkRed;
+            lblRuleDigit.ForeColor = okDigit ? Color.Green : Color.DarkRed;
+            lblRuleSpecial.ForeColor = okSpecial ? Color.Green : Color.DarkRed;
+
+            btnSet.Enabled = okLength && okUpper && okLower && okDigit && okSpecial;
         }
 
         private void btnSet_Click(object sender, EventArgs e)
@@ -20,34 +45,23 @@ namespace SystemObslugiPrzychodni
             string newPwd = txtNew.Text;
             string confirm = txtConfirm.Text;
 
-            // Walidacja niepustych
+            // 1. Walidacja niepustych
             if (string.IsNullOrEmpty(newPwd) || string.IsNullOrEmpty(confirm))
             {
                 MessageBox.Show("Wypełnij oba pola.", "Błąd",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            // Porównanie
+
+            // 2. Porównanie
             if (newPwd != confirm)
             {
-                MessageBox.Show("Podane hasłą różnią się od siebie, wprowadź je ponownie.", "Błąd",
+                MessageBox.Show("Podane hasła różnią się od siebie, wprowadź je ponownie.", "Błąd",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            // Zasady bezpieczeństwa
-            bool hasUpper = newPwd.Any(char.IsUpper);
-            bool hasSpecial = newPwd.Any(ch => !char.IsLetterOrDigit(ch));
-            if (!hasUpper || !hasSpecial)
-            {
-                MessageBox.Show(
-                    "Niepoprawny format hasła.",
-                    "Błąd",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error);
-                return;
-            }
 
-            // Zapis do bazy
+            // 3. Zapis do bazy
             using var conn = new SqliteConnection($"Data Source={UserManagement.dbpath}");
             conn.Open();
             using var cmd = conn.CreateCommand();
@@ -65,7 +79,7 @@ namespace SystemObslugiPrzychodni
                 MessageBox.Show("Hasło zostało ustawione.", "Sukces",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
                 DialogResult = DialogResult.OK;
-                this.Close();
+                Close();
             }
             else
             {

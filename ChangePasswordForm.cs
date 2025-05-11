@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 using Microsoft.Data.Sqlite;
 
@@ -7,62 +9,60 @@ namespace SystemObslugiPrzychodni
     public partial class ChangePasswordForm : Form
     {
         private readonly string _login;
+        private static readonly char[] _specialChars = { '-', '_', '!', '*', '#', '$', '&' };
 
         public ChangePasswordForm(string login)
         {
             InitializeComponent();
             _login = login;
             lblLogin.Text = login;
+
+            // zablokuj przycisk, dopóki nie spełnimy wszystkich reguł
+            btnChange.Enabled = false;
+            // podłącz walidację „na żywo”
+            txtNew.TextChanged += txtNew_TextChanged;
+        }
+
+        private void txtNew_TextChanged(object sender, EventArgs e)
+        {
+            var pwd = txtNew.Text;
+
+            bool okLength = pwd.Length >= 8 && pwd.Length <= 15;
+            bool okUpper = pwd.Any(char.IsUpper);
+            bool okLower = pwd.Any(char.IsLower);
+            bool okDigit = pwd.Any(char.IsDigit);
+            bool okSpecial = pwd.Any(ch => _specialChars.Contains(ch));
+
+            lblRuleLength.ForeColor = okLength ? Color.Green : Color.DarkRed;
+            lblRuleUpper.ForeColor = okUpper ? Color.Green : Color.DarkRed;
+            lblRuleLower.ForeColor = okLower ? Color.Green : Color.DarkRed;
+            lblRuleDigit.ForeColor = okDigit ? Color.Green : Color.DarkRed;
+            lblRuleSpecial.ForeColor = okSpecial ? Color.Green : Color.DarkRed;
+
+            btnChange.Enabled = okLength && okUpper && okLower && okDigit && okSpecial;
         }
 
         private void btnChange_Click_1(object sender, EventArgs e)
         {
-            var confirmation = MessageBox.Show(
-            "Czy na pewno chcesz zmienić hasło?",
-            "Potwierdzenie zmiany",
-            MessageBoxButtons.YesNo,
-            MessageBoxIcon.Question
-             );
-            if (confirmation == DialogResult.No)
-                return;
-
-            string current = txtCurrent.Text;
-            string next = txtNew.Text;
-            string confirm = txtConfirm.Text;
-
-            // 1. Walidacja niepustych
-            if (string.IsNullOrEmpty(current) ||
-                string.IsNullOrEmpty(next) ||
-                string.IsNullOrEmpty(confirm))
+            // potwierdzenie
+            if (MessageBox.Show(
+                    "Czy na pewno chcesz zmienić hasło?",
+                    "Potwierdzenie zmiany",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                ) != DialogResult.Yes)
             {
-                MessageBox.Show("Wypełnij wszystkie pola.", "Błąd",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            // 2. Potwierdzenie nowego hasła
-            if (next != confirm)
-            {
-                MessageBox.Show("Nowe hasło i potwierdzenie nie są zgodne.", "Błąd",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
+            string newPwd = txtNew.Text;
+            string confirmPwd = txtConfirm.Text;
 
-            // 3. Nie może być takie samo jak stare
-            if (next == current)
-            {
-                MessageBox.Show("Hasło było użyte poprzednio, wprowadź inne.", "Błąd",
-                    MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
-            }
-
-            // 4. Sprawdź minimalne zasady: przynajmniej jedna duża litera i co najmniej jeden znak specjalny
-            bool hasUpper = next.Any(char.IsUpper);
-            bool hasSpecial = next.Any(ch => !char.IsLetterOrDigit(ch));
-            if (!hasUpper || !hasSpecial)
+            // 1) zgodność
+            if (newPwd != confirmPwd)
             {
                 MessageBox.Show(
-                    "Niepoprawny format hasła, wprowadź inne.",
+                    "Podane hasła różnią się od siebie, wprowadź je ponownie.",
                     "Błąd",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
@@ -70,46 +70,48 @@ namespace SystemObslugiPrzychodni
                 return;
             }
 
-            // 5. Weryfikacja, czy current pasuje do bazy
-            using var conn = new SqliteConnection($"Data Source={UserManagement.dbpath}");
-            conn.Open();
-            using (var cmd = conn.CreateCommand())
+            // 2) zapis do bazy i wyłączenie flagi tymczasowości
+            using (var conn = new SqliteConnection($"Data Source={UserManagement.dbpath}"))
             {
-                cmd.CommandText = "SELECT password FROM tbl_user WHERE login = $login;";
-                cmd.Parameters.AddWithValue("$login", _login);
-                var stored = cmd.ExecuteScalar() as string;
-                if (stored == null || stored != current)
-                {
-                    MessageBox.Show("Aktualne hasło jest niepoprawne.", "Błąd",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-            }
-
-            // 6. Zapisz nowe hasło
-            using (var upd = conn.CreateCommand())
-            {
-                upd.CommandText = @"
+                conn.Open();
+                using var cmd = conn.CreateCommand();
+                cmd.CommandText = @"
                     UPDATE tbl_user
-                       SET password = $pwd
+                       SET password = $pwd,
+                           is_temp  = '0'
                      WHERE login = $login;
                 ";
-                upd.Parameters.AddWithValue("$pwd", next);
-                upd.Parameters.AddWithValue("$login", _login);
-                upd.ExecuteNonQuery();
+                cmd.Parameters.AddWithValue("$pwd", newPwd);
+                cmd.Parameters.AddWithValue("$login", _login);
+
+                int rows = cmd.ExecuteNonQuery();
+                if (rows == 1)
+                {
+                    MessageBox.Show(
+                        "Hasło zostało zmienione pomyślnie.",
+                        "Sukces",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                    DialogResult = DialogResult.OK;
+                    Close();
+                }
+                else
+                {
+                    MessageBox.Show(
+                        "Wystąpił błąd podczas zapisu hasła.",
+                        "Błąd",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                    );
+                }
             }
-
-            MessageBox.Show("Hasło zostało zmienione pomyślnie.", "Sukces",
-                MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-            this.DialogResult = DialogResult.OK;
-            this.Close();
         }
-    
 
         private void button1_Click(object sender, EventArgs e)
         {
-            this.Close();
+            // Zamknij formularz bez zmiany hasła
+            Close();
         }
     }
 }

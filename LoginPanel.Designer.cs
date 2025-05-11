@@ -73,7 +73,7 @@
             label3.Name = "label3";
             label3.Size = new Size(73, 20);
             label3.TabIndex = 65;
-            label3.Text = "Passowrd:";
+            label3.Text = "Password:";
             // 
             // label2
             // 

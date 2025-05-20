@@ -70,40 +70,74 @@ namespace SystemObslugiPrzychodni
                 return;
             }
 
-            // 2) zapis do bazy i wyłączenie flagi tymczasowości
+            // 2) sprawdzenie, czy hasło już istnieje
             using (var conn = new SqliteConnection($"Data Source={UserManagement.dbpath}"))
             {
                 conn.Open();
-                using var cmd = conn.CreateCommand();
-                cmd.CommandText = @"
-                    UPDATE tbl_user
-                       SET password = $pwd,
-                           is_temp  = '0'
-                     WHERE login = $login;
-                ";
-                cmd.Parameters.AddWithValue("$pwd", newPwd);
-                cmd.Parameters.AddWithValue("$login", _login);
 
-                int rows = cmd.ExecuteNonQuery();
-                if (rows == 1)
+                using (var checkCmd = conn.CreateCommand())
                 {
-                    MessageBox.Show(
-                        "Hasło zostało zmienione pomyślnie.",
-                        "Sukces",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
-                    DialogResult = DialogResult.OK;
-                    Close();
+                    checkCmd.CommandText = @"
+                SELECT COUNT(*)
+                FROM tbl_user_pass
+                WHERE user_id = (SELECT user_id FROM tbl_user WHERE login = $login)
+                  AND $pwd IN (password1, password2, password3);
+            ";
+                    checkCmd.Parameters.AddWithValue("$login", _login);
+                    checkCmd.Parameters.AddWithValue("$pwd", newPwd);
+
+                    int count = Convert.ToInt32(checkCmd.ExecuteScalar());
+                    if (count > 0)
+                    {
+                        MessageBox.Show(
+                            "Nowe hasło nie może być jednym z trzech ostatnich haseł.",
+                            "Błąd",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                        return;
+                    }
                 }
-                else
+
+                // 3) zapis nowego hasła i przesunięcie poprzednich
+                using (var updateCmd = conn.CreateCommand())
                 {
-                    MessageBox.Show(
-                        "Wystąpił błąd podczas zapisu hasła.",
-                        "Błąd",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error
-                    );
+                    updateCmd.CommandText = @"
+                UPDATE tbl_user_pass
+                SET password3 = password2,
+                    password2 = password1,
+                    password1 = $pwd
+                WHERE user_id = (SELECT user_id FROM tbl_user WHERE login = $login);
+                
+                UPDATE tbl_user
+                SET password = $pwd,
+                    is_temp = '0'
+                WHERE login = $login;
+            ";
+                    updateCmd.Parameters.AddWithValue("$pwd", newPwd);
+                    updateCmd.Parameters.AddWithValue("$login", _login);
+
+                    int rows = updateCmd.ExecuteNonQuery();
+                    if (rows > 0)
+                    {
+                        MessageBox.Show(
+                            "Hasło zostało zmienione pomyślnie.",
+                            "Sukces",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Information
+                        );
+                        DialogResult = DialogResult.OK;
+                        Close();
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            "Wystąpił błąd podczas zapisu hasła.",
+                            "Błąd",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Error
+                        );
+                    }
                 }
             }
         }

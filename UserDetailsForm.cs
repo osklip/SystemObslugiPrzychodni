@@ -23,6 +23,7 @@ namespace SystemObslugiPrzychodni
             comboBoxSex.Items.Add("Mężczyzna");
             editedUser = user;
             editedUser.User_id = user.User_id;
+            button1.Visible = false;
             labelNoweDane.Visible = false;
             textBoxLogin.Text = user.Login;
             textBoxLogin.Visible = false;
@@ -63,9 +64,6 @@ namespace SystemObslugiPrzychodni
             labelStreet.Text = user.Street;
             labelDateOfBirth.Text = user.DateOfBirth;
             labelEmail.Text = user.Email;
-            labelPassword.Text = user.Password;
-            textBoxPassword.Text = user.Password;
-            textBoxPassword.Visible = false;
             comboBoxSex.SelectedItem = user.Sex;
             _sp = sp;
 
@@ -88,6 +86,7 @@ namespace SystemObslugiPrzychodni
 
         private void EditUserDetailsButton_Click_1(object sender, EventArgs e)
         {
+            button1.Visible = true;
             labelNoweDane.Visible = true;
             textBoxLogin.Visible = true;
             textBoxName.Visible = true;
@@ -102,7 +101,6 @@ namespace SystemObslugiPrzychodni
             dateTimePickerDateOfBirth.Visible = true;
             SaveNewDetailsButton.Visible = true;
             textBoxStreet.Visible = true;
-            textBoxPassword.Visible = true;
             comboBoxSex.Visible = true;
         }
 
@@ -115,7 +113,7 @@ namespace SystemObslugiPrzychodni
 
         public void SaveNewDetailsButton_Click(object sender, EventArgs e)
         {
-            if (textBoxLogin.Text == editedUser.Login || textBoxPassword.Text == editedUser.Password ||
+            if (textBoxLogin.Text == editedUser.Login ||
                 textBoxName.Text == editedUser.Name || textBoxSurname.Text == editedUser.Surname ||
                 textBoxCity.Text == editedUser.City || textBoxPostCode.Text == editedUser.Post_Code ||
                 textBoxStreet.Text == editedUser.Street || textBoxStreetNumber.Text == editedUser.Street_number ||
@@ -124,7 +122,6 @@ namespace SystemObslugiPrzychodni
             {
                 //walidacja "czy niepuste"
                 if (string.IsNullOrWhiteSpace(textBoxLogin.Text) ||
-                    string.IsNullOrWhiteSpace(textBoxPassword.Text) ||
                     string.IsNullOrWhiteSpace(textBoxName.Text) ||
                     string.IsNullOrWhiteSpace(textBoxSurname.Text) ||
                     string.IsNullOrWhiteSpace(textBoxCity.Text) ||
@@ -143,7 +140,7 @@ namespace SystemObslugiPrzychodni
                 //walidacja "tylko litery" dla imienia i nazwiska
                 if (textBoxName.Text != editedUser.Name)
                 {
-                    if (textBoxName.Text.All(char.IsLetter))
+                    if (!textBoxName.Text.All(char.IsLetter))
                     {
                         MessageBox.Show("Imię i nazwisko mogą zawierać wyłącznie litery alfabetu (bez cyfr i znaków specjalnych).");
                         return;
@@ -152,7 +149,7 @@ namespace SystemObslugiPrzychodni
 
                 if (textBoxSurname.Text != editedUser.Surname)
                 {
-                    if (textBoxSurname.Text.All(char.IsLetter))
+                    if (!textBoxSurname.Text.All(char.IsLetter))
                     {
                         MessageBox.Show("Imię i nazwisko mogą zawierać wyłącznie litery alfabetu (bez cyfr i znaków specjalnych).");
                         return;
@@ -227,7 +224,6 @@ namespace SystemObslugiPrzychodni
                 try
                 {
                     editedUser.Login = textBoxLogin.Text;
-                    editedUser.Password = textBoxPassword.Text;
                     editedUser.Name = textBoxName.Text;
                     editedUser.Surname = textBoxSurname.Text;
                     editedUser.Pesel = textBoxPESEL.Text;

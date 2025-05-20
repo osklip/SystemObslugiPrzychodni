@@ -73,7 +73,6 @@
             textBoxStreet = new TextBox();
             label2 = new Label();
             labelPassword = new Label();
-            textBoxPassword = new TextBox();
             comboBoxSex = new ComboBox();
             EditUserDetailsButton = new Button();
             ForgetUserButton = new Button();
@@ -111,7 +110,7 @@
             // labelApartmentNumber
             // 
             labelApartmentNumber.AutoSize = true;
-            labelApartmentNumber.Location = new Point(171, 780);
+            labelApartmentNumber.Location = new Point(171, 729);
             labelApartmentNumber.Name = "labelApartmentNumber";
             labelApartmentNumber.Size = new Size(44, 20);
             labelApartmentNumber.TabIndex = 5;
@@ -120,7 +119,7 @@
             // labelCity
             // 
             labelCity.AutoSize = true;
-            labelCity.Location = new Point(171, 579);
+            labelCity.Location = new Point(171, 528);
             labelCity.Name = "labelCity";
             labelCity.Size = new Size(44, 20);
             labelCity.TabIndex = 6;
@@ -165,7 +164,7 @@
             // labelStreetNumber
             // 
             labelStreetNumber.AutoSize = true;
-            labelStreetNumber.Location = new Point(171, 723);
+            labelStreetNumber.Location = new Point(171, 672);
             labelStreetNumber.Name = "labelStreetNumber";
             labelStreetNumber.Size = new Size(44, 20);
             labelStreetNumber.TabIndex = 12;
@@ -174,7 +173,7 @@
             // labelPostCode
             // 
             labelPostCode.AutoSize = true;
-            labelPostCode.Location = new Point(171, 632);
+            labelPostCode.Location = new Point(171, 581);
             labelPostCode.Name = "labelPostCode";
             labelPostCode.Size = new Size(44, 20);
             labelPostCode.TabIndex = 13;
@@ -228,7 +227,7 @@
             // label20
             // 
             label20.AutoSize = true;
-            label20.Location = new Point(14, 780);
+            label20.Location = new Point(14, 729);
             label20.Name = "label20";
             label20.Size = new Size(134, 20);
             label20.TabIndex = 19;
@@ -237,7 +236,7 @@
             // label21
             // 
             label21.AutoSize = true;
-            label21.Location = new Point(14, 723);
+            label21.Location = new Point(14, 672);
             label21.Name = "label21";
             label21.Size = new Size(100, 20);
             label21.TabIndex = 20;
@@ -246,7 +245,7 @@
             // label22
             // 
             label22.AutoSize = true;
-            label22.Location = new Point(14, 579);
+            label22.Location = new Point(14, 528);
             label22.Name = "label22";
             label22.Size = new Size(57, 20);
             label22.TabIndex = 21;
@@ -255,7 +254,7 @@
             // label23
             // 
             label23.AutoSize = true;
-            label23.Location = new Point(14, 632);
+            label23.Location = new Point(14, 581);
             label23.Name = "label23";
             label23.Size = new Size(107, 20);
             label23.TabIndex = 22;
@@ -264,7 +263,7 @@
             // label24
             // 
             label24.AutoSize = true;
-            label24.Location = new Point(14, 535);
+            label24.Location = new Point(14, 484);
             label24.Name = "label24";
             label24.Size = new Size(142, 20);
             label24.TabIndex = 23;
@@ -382,7 +381,7 @@
             // 
             // textBoxCity
             // 
-            textBoxCity.Location = new Point(352, 568);
+            textBoxCity.Location = new Point(352, 517);
             textBoxCity.Margin = new Padding(3, 4, 3, 4);
             textBoxCity.Name = "textBoxCity";
             textBoxCity.Size = new Size(228, 27);
@@ -390,7 +389,7 @@
             // 
             // textBoxPostCode
             // 
-            textBoxPostCode.Location = new Point(352, 621);
+            textBoxPostCode.Location = new Point(352, 570);
             textBoxPostCode.Margin = new Padding(3, 4, 3, 4);
             textBoxPostCode.Name = "textBoxPostCode";
             textBoxPostCode.Size = new Size(228, 27);
@@ -398,7 +397,7 @@
             // 
             // textBoxStreetNumber
             // 
-            textBoxStreetNumber.Location = new Point(352, 712);
+            textBoxStreetNumber.Location = new Point(352, 661);
             textBoxStreetNumber.Margin = new Padding(3, 4, 3, 4);
             textBoxStreetNumber.Name = "textBoxStreetNumber";
             textBoxStreetNumber.Size = new Size(228, 27);
@@ -406,7 +405,7 @@
             // 
             // textBoxApartmentNumber
             // 
-            textBoxApartmentNumber.Location = new Point(352, 769);
+            textBoxApartmentNumber.Location = new Point(352, 718);
             textBoxApartmentNumber.Margin = new Padding(3, 4, 3, 4);
             textBoxApartmentNumber.Name = "textBoxApartmentNumber";
             textBoxApartmentNumber.Size = new Size(228, 27);
@@ -414,7 +413,7 @@
             // 
             // SaveNewDetailsButton
             // 
-            SaveNewDetailsButton.Location = new Point(463, 864);
+            SaveNewDetailsButton.Location = new Point(462, 766);
             SaveNewDetailsButton.Margin = new Padding(3, 4, 3, 4);
             SaveNewDetailsButton.Name = "SaveNewDetailsButton";
             SaveNewDetailsButton.Size = new Size(118, 31);
@@ -425,7 +424,7 @@
             // 
             // OpenUserListFormButton
             // 
-            OpenUserListFormButton.Location = new Point(463, 937);
+            OpenUserListFormButton.Location = new Point(462, 839);
             OpenUserListFormButton.Margin = new Padding(3, 4, 3, 4);
             OpenUserListFormButton.Name = "OpenUserListFormButton";
             OpenUserListFormButton.Size = new Size(118, 31);
@@ -437,7 +436,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(14, 679);
+            label1.Location = new Point(14, 628);
             label1.Name = "label1";
             label1.Size = new Size(45, 20);
             label1.TabIndex = 45;
@@ -446,7 +445,7 @@
             // labelStreet
             // 
             labelStreet.AutoSize = true;
-            labelStreet.Location = new Point(171, 679);
+            labelStreet.Location = new Point(171, 628);
             labelStreet.Name = "labelStreet";
             labelStreet.Size = new Size(44, 20);
             labelStreet.TabIndex = 46;
@@ -454,7 +453,7 @@
             // 
             // textBoxStreet
             // 
-            textBoxStreet.Location = new Point(352, 668);
+            textBoxStreet.Location = new Point(352, 617);
             textBoxStreet.Margin = new Padding(3, 4, 3, 4);
             textBoxStreet.Name = "textBoxStreet";
             textBoxStreet.Size = new Size(228, 27);
@@ -478,14 +477,6 @@
             labelPassword.TabIndex = 49;
             labelPassword.Text = "NULL";
             // 
-            // textBoxPassword
-            // 
-            textBoxPassword.Location = new Point(352, 88);
-            textBoxPassword.Margin = new Padding(3, 4, 3, 4);
-            textBoxPassword.Name = "textBoxPassword";
-            textBoxPassword.Size = new Size(228, 27);
-            textBoxPassword.TabIndex = 50;
-            // 
             // comboBoxSex
             // 
             comboBoxSex.FormattingEnabled = true;
@@ -497,7 +488,7 @@
             // 
             // EditUserDetailsButton
             // 
-            EditUserDetailsButton.Location = new Point(9, 898);
+            EditUserDetailsButton.Location = new Point(14, 839);
             EditUserDetailsButton.Margin = new Padding(3, 4, 3, 4);
             EditUserDetailsButton.Name = "EditUserDetailsButton";
             EditUserDetailsButton.Size = new Size(137, 31);
@@ -508,7 +499,7 @@
             // 
             // ForgetUserButton
             // 
-            ForgetUserButton.Location = new Point(158, 937);
+            ForgetUserButton.Location = new Point(157, 839);
             ForgetUserButton.Margin = new Padding(3, 4, 3, 4);
             ForgetUserButton.Name = "ForgetUserButton";
             ForgetUserButton.Size = new Size(137, 31);
@@ -519,7 +510,7 @@
             // 
             // button4
             // 
-            button4.Location = new Point(302, 937);
+            button4.Location = new Point(301, 839);
             button4.Margin = new Padding(3, 4, 3, 4);
             button4.Name = "button4";
             button4.Size = new Size(137, 31);
@@ -530,7 +521,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(12, 937);
+            button1.Location = new Point(352, 88);
             button1.Margin = new Padding(3, 4, 3, 4);
             button1.Name = "button1";
             button1.Size = new Size(137, 31);
@@ -543,13 +534,12 @@
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(617, 981);
+            ClientSize = new Size(617, 872);
             Controls.Add(button1);
             Controls.Add(button4);
             Controls.Add(ForgetUserButton);
             Controls.Add(EditUserDetailsButton);
             Controls.Add(comboBoxSex);
-            Controls.Add(textBoxPassword);
             Controls.Add(labelPassword);
             Controls.Add(label2);
             Controls.Add(textBoxStreet);
@@ -650,7 +640,6 @@
         private TextBox textBoxStreet;
         private Label label2;
         private Label labelPassword;
-        private TextBox textBoxPassword;
         private ComboBox comboBoxSex;
         private Button EditUserDetailsButton;
         private Button button1;

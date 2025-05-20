@@ -19,7 +19,7 @@ namespace SystemObslugiPrzychodni
     public class UserManagement
     {
         public static List<User> users = new List<User>();
-        public static string dbpath = "C:\\Users\\cmoli\\Desktop\\SystemObslugiPrzychodni-master\\database.db";
+        public static string dbpath = "C:\\Users\\cmoli\\OneDrive\\Pulpit\\SystemObslugiPrzychodni-master\\database.db";
 
  
 
@@ -346,7 +346,6 @@ namespace SystemObslugiPrzychodni
                 command.CommandText = @"UPDATE tbl_user
                                         SET
                                             login = $login,
-                                            password = $password,
                                             name = $name,
                                             surname = $surname,
                                             city = $city,
@@ -365,7 +364,6 @@ namespace SystemObslugiPrzychodni
 
                 command.Parameters.AddWithValue("$user_id", user.User_id);
                 command.Parameters.AddWithValue("$login", user.Login);
-                command.Parameters.AddWithValue("$password", user.Password);
                 command.Parameters.AddWithValue("$name", user.Name);
                 command.Parameters.AddWithValue("$surname", user.Surname);
                 command.Parameters.AddWithValue("$city", user.City);

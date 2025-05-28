@@ -19,7 +19,7 @@ namespace SystemObslugiPrzychodni
     public class UserManagement
     {
         public static List<User> users = new List<User>();
-        public static string dbpath = "C:\\Users\\cmoli\\OneDrive\\Pulpit\\SystemObslugiPrzychodni-master\\database.db";
+        public static string dbpath = "C:\\Users\\Jakub\\Source\\Repos\\SystemObslugiPrzychodni\\database.db";
 
  
 

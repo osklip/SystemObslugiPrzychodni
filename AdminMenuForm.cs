@@ -45,7 +45,10 @@ namespace SystemObslugiPrzychodni
             var form = new ForgottenUsersForm();
             form.ShowDialog();
         }
-
+        public static class Session
+        {
+            public static User LoggedInUser { get; set; }
+        }
         private void logoutMenuItem_Click(object sender, EventArgs e)
         {
             var result = MessageBox.Show(
@@ -57,6 +60,21 @@ namespace SystemObslugiPrzychodni
             if (result == DialogResult.No) return;
 
             new LoginPanel(_sp).Show();
+            this.Close();
+        }
+
+
+        private void button_show_dara_Click(object sender, EventArgs e)
+        {
+            if (Session.LoggedInUser == null)
+            {
+                MessageBox.Show("Brak danych o zalogowanym u¿ytkowniku.");
+                return;
+            }
+
+            var detailsForm = new UserDetailsFormPersonal(Session.LoggedInUser, _sp);
+            detailsForm.Show(); // lub ShowDialog() jeœli chcesz zablokowaæ inne okna
+
             this.Close();
         }
     }

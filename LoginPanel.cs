@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
+using static SystemObslugiPrzychodni.AdminMenuForm;
 
 namespace SystemObslugiPrzychodni
 {
@@ -54,16 +55,16 @@ namespace SystemObslugiPrzychodni
             using var conn = new SqliteConnection($"Data Source={UserManagement.dbpath}");
             conn.Open();
 
-            // 3. Pobierz dane użytkownika: ID, hasło i flagę is_temp
+            // 3. Pobierz ID, hasło i flagę tymczasowości
             int userId;
             string storedPwd;
             string isTemp;
             using (var cmd = conn.CreateCommand())
             {
                 cmd.CommandText = @"
-                    SELECT user_id, password, is_temp
-                      FROM tbl_user
-                     WHERE login = $login;";
+            SELECT user_id, password, is_temp
+              FROM tbl_user
+             WHERE login = $login;";
                 cmd.Parameters.AddWithValue("$login", login);
                 using var rdr = cmd.ExecuteReader();
                 if (!rdr.Read())
@@ -76,7 +77,7 @@ namespace SystemObslugiPrzychodni
                 isTemp = rdr.IsDBNull(2) ? "0" : rdr.GetString(2);
             }
 
-            // 4. Porównanie plaintext
+            // 4. Porównanie hasła
             if (password != storedPwd)
             {
                 RegisterFailure(login);
@@ -90,21 +91,63 @@ namespace SystemObslugiPrzychodni
                 using var forceForm = new ForceChangePasswordForm(userId);
                 if (forceForm.ShowDialog() != DialogResult.OK)
                 {
-                    // Użytkownik anulował zmianę → restart aplikacji
                     Application.Restart();
                     return;
                 }
-                // Po zmianie hasła kontynuujemy
             }
 
-            // 6. Udane logowanie – reset licznika i blokady
+            // 6. Reset licznika błędów i blokady
             _failCounts.Remove(login);
             _lockouts.Remove(login);
 
-            Currentlogin = login;
+            // 7. Pobierz pełne dane użytkownika
+            User authenticatedUser;
+            using (var cmd = conn.CreateCommand())
+            {
+                cmd.CommandText = @"
+            SELECT user_id, login, password, name, surname, city, post_code, street, street_number,
+                   apartment_number, pesel, date_of_birth, sex, email, phone, role_id, is_active
+              FROM tbl_user
+             WHERE user_id = $user_id;";
+                cmd.Parameters.AddWithValue("$user_id", userId);
 
+                using var rdr = cmd.ExecuteReader();
+                if (rdr.Read())
+                {
+                    authenticatedUser = new User(
+                        rdr.GetInt32(0),
+                        rdr.GetString(1),
+                        rdr.GetString(2),
+                        rdr.GetString(3),
+                        rdr.GetString(4),
+                        rdr.GetString(5),
+                        rdr.GetString(6),
+                        rdr.IsDBNull(7) ? null : rdr.GetString(7),
+                        rdr.GetString(8),
+                        rdr.IsDBNull(9) ? null : rdr.GetString(9),
+                        rdr.GetString(10),
+                        rdr.GetString(11),
+                        rdr.GetString(12),
+                        rdr.GetString(13),
+                        rdr.GetString(14),
+                        rdr.GetInt32(15),
+                        rdr.GetBoolean(16)
+                    );
+                }
+                else
+                {
+                    ShowError("Nie można załadować danych użytkownika.");
+                    return;
+                }
+            }
+
+            // 8. Przypisz użytkownika do sesji
+            Session.LoggedInUser = authenticatedUser;
+
+            // 9. Załaduj uprawnienia użytkownika (jeśli masz taką metodę)
             UserManagement.LoadCurrentUserPermissions(login);
-            // 7. Otwórz panel Admina
+
+            // 10. Otwórz formę menu administratora
             new AdminMenuForm(_sp).Show();
             this.Hide();
         }

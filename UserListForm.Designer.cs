@@ -40,7 +40,6 @@ namespace SystemObslugiPrzychodni
             textBoxSurname = new TextBox();
             textBoxPESEL = new TextBox();
             ResetViewButton = new Button();
-            OpenUserDetailsForm = new Button();
             textBoxName = new TextBox();
             label5 = new Label();
             OpenUserDetailsForm2 = new Button();
@@ -156,16 +155,6 @@ namespace SystemObslugiPrzychodni
             ResetViewButton.UseVisualStyleBackColor = true;
             ResetViewButton.Click += ResetViewButton_Click;
             // 
-            // OpenUserDetailsForm
-            // 
-            OpenUserDetailsForm.Location = new Point(10, 464);
-            OpenUserDetailsForm.Margin = new Padding(3, 2, 3, 2);
-            OpenUserDetailsForm.Name = "OpenUserDetailsForm";
-            OpenUserDetailsForm.Size = new Size(134, 17);
-            OpenUserDetailsForm.TabIndex = 11;
-            OpenUserDetailsForm.Text = "Szczegóły użytkownika";
-            OpenUserDetailsForm.UseVisualStyleBackColor = true;
-            // 
             // textBoxName
             // 
             textBoxName.Location = new Point(150, 51);
@@ -199,7 +188,7 @@ namespace SystemObslugiPrzychodni
             comboBoxPerms.FormattingEnabled = true;
             comboBoxPerms.Location = new Point(554, 51);
             comboBoxPerms.Name = "comboBoxPerms";
-            comboBoxPerms.Size = new Size(134, 23);
+            comboBoxPerms.Size = new Size(155, 23);
             comboBoxPerms.TabIndex = 16;
             // 
             // label6
@@ -215,13 +204,12 @@ namespace SystemObslugiPrzychodni
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(791, 461);
+            ClientSize = new Size(791, 466);
             Controls.Add(label6);
             Controls.Add(comboBoxPerms);
             Controls.Add(OpenUserDetailsForm2);
             Controls.Add(label5);
             Controls.Add(textBoxName);
-            Controls.Add(OpenUserDetailsForm);
             Controls.Add(ResetViewButton);
             Controls.Add(textBoxPESEL);
             Controls.Add(textBoxSurname);
@@ -255,7 +243,6 @@ namespace SystemObslugiPrzychodni
         private TextBox textBoxSurname;
         private TextBox textBoxPESEL;
         private Button ResetViewButton;
-        private Button OpenUserDetailsForm;
         private TextBox textBoxName;
         private Label label5;
         private Button OpenUserDetailsForm2;

@@ -103,12 +103,6 @@ namespace SystemObslugiPrzychodni
                 using (var updateCmd = conn.CreateCommand())
                 {
                     updateCmd.CommandText = @"
-                UPDATE tbl_user_pass
-                SET password3 = password2,
-                    password2 = password1,
-                    password1 = $pwd
-                WHERE user_id = (SELECT user_id FROM tbl_user WHERE login = $login);
-                
                 UPDATE tbl_user
                 SET password = $pwd,
                     is_temp = '0'

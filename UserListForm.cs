@@ -12,17 +12,19 @@ namespace SystemObslugiPrzychodni
 {
     public partial class UserListForm : Form
     {
-        public UserListForm()
+        private readonly IServiceProvider _sp;
+        public UserListForm(IServiceProvider sp)
         {
             InitializeComponent();
             RefreshUserList();
-            comboBoxPerms.Items.Add("dodawanie");
-            comboBoxPerms.Items.Add("edytowanie");
-            comboBoxPerms.Items.Add("wyswietlanie");
-            comboBoxPerms.Items.Add("zapominanie");
-            comboBoxPerms.Items.Add("wyświetlanie zapomnianych");
-            comboBoxPerms.Items.Add("nadawanie uprawnień");
-            comboBoxPerms.Items.Add("obsługa pacjentów");
+            comboBoxPerms.Items.Add("Dodawanie użytkowników");
+            comboBoxPerms.Items.Add("Edytowanie użytkowników");
+            comboBoxPerms.Items.Add("Wyswietlanie użytkowników");
+            comboBoxPerms.Items.Add("Zapominanie użytkowników");
+            comboBoxPerms.Items.Add("Wyświetlanie użytkowników zapomnianych");
+            comboBoxPerms.Items.Add("Nadawanie uprawnień");
+            comboBoxPerms.Items.Add("Obsługa pacjentów");
+            _sp = sp;
         }
 
         public void RefreshUserList()
@@ -57,7 +59,7 @@ namespace SystemObslugiPrzychodni
 
         private void OpenAdminMenuFormButton_Click(object sender, EventArgs e)
         {
-            AdminMenuForm form1 = new AdminMenuForm();
+            AdminMenuForm form1 = new AdminMenuForm(_sp);
             form1.Show();
             this.Close();
         }
@@ -86,6 +88,8 @@ namespace SystemObslugiPrzychodni
                 dataGridViewUserList.DataSource = null;
                 dataGridViewUserList.DataSource = filteredUsers;
                 HideData();
+                dataGridViewUserList.Columns["Name"].HeaderText = "Imię";
+                dataGridViewUserList.Columns["Surname"].HeaderText = "Nazwisko";
             }
             else
             {
@@ -120,7 +124,7 @@ namespace SystemObslugiPrzychodni
 
                 if (selectedUser != null)
                 {
-                    UserDetailsForm editForm = new UserDetailsForm(selectedUser);
+                    UserDetailsForm editForm = new UserDetailsForm(selectedUser, _sp);
                     editForm.Show();
                     this.Close();
                     //RefreshUserList();
@@ -140,7 +144,8 @@ namespace SystemObslugiPrzychodni
 
         private void UserListForm_Load(object sender, EventArgs e)
         {
-
+            dataGridViewUserList.Columns["Name"].HeaderText = "Imię";
+            dataGridViewUserList.Columns["Surname"].HeaderText = "Nazwisko";
         }
 
         

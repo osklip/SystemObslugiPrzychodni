@@ -29,11 +29,6 @@ namespace SystemObslugiPrzychodni
             }
 
             dataGridViewForgottenUsers.DataSource = forgotten;
-            dataGridViewForgottenUsers.Columns["UserId"].HeaderText = "ID Użytkownika";
-            dataGridViewForgottenUsers.Columns["ForgottenName"].HeaderText = "Imię";
-            dataGridViewForgottenUsers.Columns["ForgottenSurname"].HeaderText = "Nazwisko";
-            dataGridViewForgottenUsers.Columns["ForgottenDate"].HeaderText = "Data Zapomnienia";
-            dataGridViewForgottenUsers.Columns["AdminId"].HeaderText = "ID Administratora";
         }
     }
 }

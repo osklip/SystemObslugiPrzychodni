@@ -64,9 +64,9 @@
             checkBox1.AutoSize = true;
             checkBox1.Location = new Point(12, 52);
             checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(164, 19);
+            checkBox1.Size = new Size(85, 19);
             checkBox1.TabIndex = 2;
-            checkBox1.Text = "Dodawanie użytkowników";
+            checkBox1.Text = "Dodawanie";
             checkBox1.UseVisualStyleBackColor = true;
             // 
             // checkBox2
@@ -74,9 +74,9 @@
             checkBox2.AutoSize = true;
             checkBox2.Location = new Point(12, 77);
             checkBox2.Name = "checkBox2";
-            checkBox2.Size = new Size(166, 19);
+            checkBox2.Size = new Size(87, 19);
             checkBox2.TabIndex = 3;
-            checkBox2.Text = "Edytowanie użytkowników";
+            checkBox2.Text = "Edytowanie";
             checkBox2.UseVisualStyleBackColor = true;
             // 
             // checkBox3
@@ -84,9 +84,9 @@
             checkBox3.AutoSize = true;
             checkBox3.Location = new Point(12, 100);
             checkBox3.Name = "checkBox3";
-            checkBox3.Size = new Size(174, 19);
+            checkBox3.Size = new Size(95, 19);
             checkBox3.TabIndex = 4;
-            checkBox3.Text = "Wyświetlanie użytkowników";
+            checkBox3.Text = "Wyświetlanie";
             checkBox3.UseVisualStyleBackColor = true;
             // 
             // checkBox4
@@ -94,9 +94,9 @@
             checkBox4.AutoSize = true;
             checkBox4.Location = new Point(12, 125);
             checkBox4.Name = "checkBox4";
-            checkBox4.Size = new Size(175, 19);
+            checkBox4.Size = new Size(96, 19);
             checkBox4.TabIndex = 5;
-            checkBox4.Text = "Zapominanie użytkowników";
+            checkBox4.Text = "Zapominanie";
             checkBox4.UseVisualStyleBackColor = true;
             // 
             // checkBox5
@@ -104,9 +104,9 @@
             checkBox5.AutoSize = true;
             checkBox5.Location = new Point(12, 150);
             checkBox5.Name = "checkBox5";
-            checkBox5.Size = new Size(255, 19);
+            checkBox5.Size = new Size(176, 19);
             checkBox5.TabIndex = 6;
-            checkBox5.Text = "Wyświetlanie użytkowników zapomnianych";
+            checkBox5.Text = "Wyświetlanie zapomnianych";
             checkBox5.UseVisualStyleBackColor = true;
             // 
             // checkBox6
@@ -153,7 +153,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(266, 266);
+            ClientSize = new Size(195, 266);
             Controls.Add(button2);
             Controls.Add(button1);
             Controls.Add(checkBox7);
@@ -166,7 +166,7 @@
             Controls.Add(label2);
             Controls.Add(userLabel);
             Name = "UserPerms";
-            Text = "Edycja uprawnień";
+            Text = "UserPerms";
             ResumeLayout(false);
             PerformLayout();
         }

@@ -1,5 +1,4 @@
-﻿using Microsoft.VisualBasic.ApplicationServices;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,15 +14,13 @@ namespace SystemObslugiPrzychodni
     public partial class UserDetailsForm : Form
     {
         private User editedUser;
-        private readonly IServiceProvider _sp;
-        public UserDetailsForm(User user, IServiceProvider sp)
+        public UserDetailsForm(User user)
         {
             InitializeComponent();
             comboBoxSex.Items.Add("Kobieta");
             comboBoxSex.Items.Add("Mężczyzna");
             editedUser = user;
             editedUser.User_id = user.User_id;
-            button1.Visible = false;
             labelNoweDane.Visible = false;
             textBoxLogin.Text = user.Login;
             textBoxLogin.Visible = false;
@@ -64,29 +61,14 @@ namespace SystemObslugiPrzychodni
             labelStreet.Text = user.Street;
             labelDateOfBirth.Text = user.DateOfBirth;
             labelEmail.Text = user.Email;
+            labelPassword.Text = user.Password;
+            textBoxPassword.Text = user.Password;
+            textBoxPassword.Visible = false;
             comboBoxSex.SelectedItem = user.Sex;
-            _sp = sp;
-
-
-            if (UserManagement.CurrentUserPermissions[1] == 0) // Jeśli brak uprawnienia do edycji
-            {
-                EditUserDetailsButton.Enabled = false; // Wyłącz przycisk
-            }
-
-            if (UserManagement.CurrentUserPermissions[3] == 0) // Jeśli brak uprawnienia do zapominania
-            {
-                ForgetUserButton.Enabled = false; // Wyłącz przycisk
-            }
-
-            if (UserManagement.CurrentUserPermissions[5] == 0) // Jeśli brak uprawnienia do nadawania uprawnien
-            {
-                button4.Enabled = false; // Wyłącz przycisk
-            }
         }
 
         private void EditUserDetailsButton_Click_1(object sender, EventArgs e)
         {
-            button1.Visible = true;
             labelNoweDane.Visible = true;
             textBoxLogin.Visible = true;
             textBoxName.Visible = true;
@@ -101,19 +83,20 @@ namespace SystemObslugiPrzychodni
             dateTimePickerDateOfBirth.Visible = true;
             SaveNewDetailsButton.Visible = true;
             textBoxStreet.Visible = true;
+            textBoxPassword.Visible = true;
             comboBoxSex.Visible = true;
         }
 
         private void OpenUserListFormButton_Click(object sender, EventArgs e)
         {
-            UserListForm userListForm = new UserListForm(_sp);
+            UserListForm userListForm = new UserListForm();
             userListForm.Show();
             this.Close();
         }
 
         public void SaveNewDetailsButton_Click(object sender, EventArgs e)
         {
-            if (textBoxLogin.Text == editedUser.Login ||
+            if (textBoxLogin.Text == editedUser.Login || textBoxPassword.Text == editedUser.Password ||
                 textBoxName.Text == editedUser.Name || textBoxSurname.Text == editedUser.Surname ||
                 textBoxCity.Text == editedUser.City || textBoxPostCode.Text == editedUser.Post_Code ||
                 textBoxStreet.Text == editedUser.Street || textBoxStreetNumber.Text == editedUser.Street_number ||
@@ -122,6 +105,7 @@ namespace SystemObslugiPrzychodni
             {
                 //walidacja "czy niepuste"
                 if (string.IsNullOrWhiteSpace(textBoxLogin.Text) ||
+                    string.IsNullOrWhiteSpace(textBoxPassword.Text) ||
                     string.IsNullOrWhiteSpace(textBoxName.Text) ||
                     string.IsNullOrWhiteSpace(textBoxSurname.Text) ||
                     string.IsNullOrWhiteSpace(textBoxCity.Text) ||
@@ -140,7 +124,7 @@ namespace SystemObslugiPrzychodni
                 //walidacja "tylko litery" dla imienia i nazwiska
                 if (textBoxName.Text != editedUser.Name)
                 {
-                    if (!textBoxName.Text.All(char.IsLetter))
+                    if (textBoxName.Text.All(char.IsLetter))
                     {
                         MessageBox.Show("Imię i nazwisko mogą zawierać wyłącznie litery alfabetu (bez cyfr i znaków specjalnych).");
                         return;
@@ -149,7 +133,7 @@ namespace SystemObslugiPrzychodni
 
                 if (textBoxSurname.Text != editedUser.Surname)
                 {
-                    if (!textBoxSurname.Text.All(char.IsLetter))
+                    if (textBoxSurname.Text.All(char.IsLetter))
                     {
                         MessageBox.Show("Imię i nazwisko mogą zawierać wyłącznie litery alfabetu (bez cyfr i znaków specjalnych).");
                         return;
@@ -224,6 +208,7 @@ namespace SystemObslugiPrzychodni
                 try
                 {
                     editedUser.Login = textBoxLogin.Text;
+                    editedUser.Password = textBoxPassword.Text;
                     editedUser.Name = textBoxName.Text;
                     editedUser.Surname = textBoxSurname.Text;
                     editedUser.Pesel = textBoxPESEL.Text;
@@ -262,12 +247,6 @@ namespace SystemObslugiPrzychodni
 
             if (editedUser != null)
             {
-                if (editedUser.Login == LoginPanel.Currentlogin)
-                {
-                    MessageBox.Show("Nie możesz zapomnieć samego siebie.", "Ostrzeżenie", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return; // Przerwij operację
-                }
-
                 var result = MessageBox.Show(
                     $"Czy na pewno chcesz zapomnieć użytkownika {editedUser.Name} {editedUser.Surname}?",
                     "Potwierdzenie", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
@@ -276,7 +255,7 @@ namespace SystemObslugiPrzychodni
                 {
                     UserManagement.ForgetUser(editedUser, 1); //po dodaniu logowania zmienic 1 na zmienna ktora odpowiada za id zalogowanego uzytkownika
                     MessageBox.Show("Użytkownik został zapomniany.", "Sukces", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    UserListForm userListForm = new UserListForm(_sp);
+                    UserListForm userListForm = new UserListForm();
                     userListForm.RefreshUserList();
                     userListForm.Show();
                     this.Close();
@@ -296,18 +275,6 @@ namespace SystemObslugiPrzychodni
             userPerms.Show();
         }
 
-        private void button1_Click(object sender, EventArgs e)
-        {
-            using var dlg = new ChangePasswordForm(editedUser.Login);
-            if (dlg.ShowDialog() == DialogResult.OK)
-            {
-                MessageBox.Show(
-                    "Hasło zostało zmienione.",
-                    "Informacja",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
-            }
-        }
+
     }
 }

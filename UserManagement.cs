@@ -19,11 +19,53 @@ namespace SystemObslugiPrzychodni
     public class UserManagement
     {
         public static List<User> users = new List<User>();
-        public static string dbpath = "C:\\Users\\cmoli\\Desktop\\SystemObslugiPrzychodni-master1\\database.db";
+        public static string dbpath = "C:\\Users\\cmoli\\Desktop\\SystemObslugiPrzychodni-master\\database.db";
 
  
 
         private static int lastUserId = 0;
+
+        public static int[] CurrentUserPermissions { get; private set; } = new int[7]; // Publiczna tablica na uprawnienia
+
+        public static void LoadCurrentUserPermissions(string login)
+        {
+
+            if (string.IsNullOrEmpty(login))
+            {
+                throw new InvalidOperationException("Login użytkownika jest pusty.");
+            }
+
+            int? userId = null;
+
+            using (var connection = new SqliteConnection("Data Source=" + dbpath))
+            {
+                connection.Open();
+                var command = connection.CreateCommand();
+                command.CommandText = @"
+                SELECT user_id
+                FROM tbl_user
+                WHERE login = $login;
+            ";
+                command.Parameters.AddWithValue("$login", login);
+
+                object result = command.ExecuteScalar();
+                if (result != null && int.TryParse(result.ToString(), out int id))
+                {
+                    userId = id;
+                }
+                else
+                {
+                    throw new InvalidOperationException("Nie znaleziono użytkownika o podanym loginie.");
+                }
+            }
+
+            if (userId.HasValue)
+            {
+                // Pobierz uprawnienia na podstawie user_id
+                CurrentUserPermissions = GetUserPerms(userId);
+            }
+        }
+
 
         public class ForgottenUserInfo
         {
@@ -304,7 +346,6 @@ namespace SystemObslugiPrzychodni
                 command.CommandText = @"UPDATE tbl_user
                                         SET
                                             login = $login,
-                                            password = $password,
                                             name = $name,
                                             surname = $surname,
                                             city = $city,
@@ -323,7 +364,6 @@ namespace SystemObslugiPrzychodni
 
                 command.Parameters.AddWithValue("$user_id", user.User_id);
                 command.Parameters.AddWithValue("$login", user.Login);
-                command.Parameters.AddWithValue("$password", user.Password);
                 command.Parameters.AddWithValue("$name", user.Name);
                 command.Parameters.AddWithValue("$surname", user.Surname);
                 command.Parameters.AddWithValue("$city", user.City);

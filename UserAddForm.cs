@@ -14,12 +14,13 @@ namespace SystemObslugiPrzychodni
 {
     public partial class UserAddForm : Form
     {
-
-        public UserAddForm()
+        private readonly IServiceProvider _sp;
+        public UserAddForm(IServiceProvider sp)
         {
             InitializeComponent();
             comboBoxSex.Items.Add("Kobieta");
             comboBoxSex.Items.Add("Mężczyzna");
+            _sp = sp;
         }
 
         private void AddUserButton_Click(object sender, EventArgs e)
@@ -128,7 +129,7 @@ namespace SystemObslugiPrzychodni
 
                 UserManagement.AddUser(newUser);
                 MessageBox.Show("Użytkownik został pomyślnie dodany do systemu.");
-                AdminMenuForm form1 = new AdminMenuForm();
+                AdminMenuForm form1 = new AdminMenuForm(_sp);
                 form1.Show();
                 this.Close();
             }
@@ -140,7 +141,7 @@ namespace SystemObslugiPrzychodni
 
         private void buttonCloseForm_Click(object sender, EventArgs e)
         {
-            AdminMenuForm form1 = new AdminMenuForm();
+            AdminMenuForm form1 = new AdminMenuForm(_sp);
             form1.Show();
             this.Close();
         }

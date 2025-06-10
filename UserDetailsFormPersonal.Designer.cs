@@ -98,6 +98,7 @@
             button4.TabIndex = 106;
             button4.Text = "Uprawnienia";
             button4.UseVisualStyleBackColor = true;
+            button4.Visible = false;
             button4.Click += button4_Click_1;
             // 
             // ForgetUserButton
@@ -108,6 +109,7 @@
             ForgetUserButton.TabIndex = 105;
             ForgetUserButton.Text = "Zapomnij użytkownika";
             ForgetUserButton.UseVisualStyleBackColor = true;
+            ForgetUserButton.Visible = false;
             ForgetUserButton.Click += ForgetUserButton_Click_1;
             // 
             // EditUserDetailsButton
